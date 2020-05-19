@@ -29,27 +29,27 @@
         <dependency>
             <groupId>net.haoshoku</groupId>
             <artifactId>nick-api</artifactId>
-            <version>unknown</version>
+            <version>4.1</version>
             <scope>system</scope>
-            <systemPath>C:/Users/Elb1to/Documents/GitHub/FrozedDevelopment/libs/NickAPI.jar</systemPath>
+            <systemPath>C:/Users/Elb1to/Documents/GitHub/FrozedDevelopment/libs/NickAPI-v4.1.jar</systemPath>
         </dependency>
 
-        <!-- Lombok -->
+        <!-- Lombok
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.16.16</version>
             <scope>system</scope>
             <systemPath>C:/Users/Elb1to/IdeaProjects/libs/lombok.jar</systemPath>
-        </dependency>
+        </dependency> -->
 
         <!-- ProtocolLib -->
         <dependency>
             <groupId>com.comphenix.protocol</groupId>
             <artifactId>ProtocolLib</artifactId>
-            <version>4.4.0</version>
+            <version>4.5.0</version>
             <scope>system</scope>
-            <systemPath>C:/Users/Elb1to/IdeaProjects/libs/ProtocolLib-4.4.0.jar</systemPath>
+            <systemPath>C:/Users/Elb1to/IdeaProjects/libs/ProtocolLib-4.5.0.jar</systemPath>
         </dependency>
     </dependencies>
 
