@@ -1,0 +1,17 @@
+name: FrozedDisguise
+version: 1.0
+main: club.frozed.frozeddisguise.FrozedDisguise
+authors:
+  - Elb1to
+  - Scalebound
+  - FrozedDevelopment
+depend:
+  - ProtocolLib
+  - NickAPI
+commands:
+  nick:
+    aliases: [disguise, dis, d]
+  unnick:
+    aliases: [undisguise, undis, ud]
+  nicklist:
+    aliases: [disguiselist, dislist]
