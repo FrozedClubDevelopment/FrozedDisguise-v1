@@ -55,7 +55,7 @@ public class NickCommand implements CommandExecutor, Listener {
 
     @EventHandler
     public void onClick(InventoryClickEvent event) {
-        if (event.getInventory().getTitle().equalsIgnoreCase("��8Pick a skin")) {
+        if (event.getInventory().getTitle().equalsIgnoreCase(Messages.CC("&8Pick a Skin"))) {
             event.setCancelled(true);
             if (event.getCurrentItem() == null || event.getCurrentItem() == null || SkinGenerator.data.get(event.getCurrentItem().getItemMeta().getDisplayName()) == null) {
                 return;
@@ -78,7 +78,7 @@ public class NickCommand implements CommandExecutor, Listener {
             NickPlugin.getPlugin().getAPI().setGameProfileName(player, nick);
             NickPlugin.getPlugin().getAPI().refreshPlayer(player);
             player.getOpenInventory().close();
-            player.sendMessage(Messages.CC("&a&aSuccess! You now look like &f" + nick + " &a(In the skin of &e" + display + "&a) !"));
+            player.sendMessage(Messages.CC("&aSuccess! You now look like &f" + nick + " &a(In the skin of &e" + display + "&a) !"));
 
             for (Player p : FrozedDisguise.getInstance().getServer().getOnlinePlayers()) {
                 if (p.hasPermission("nick.alert")) {

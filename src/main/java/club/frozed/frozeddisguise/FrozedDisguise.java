@@ -33,10 +33,12 @@ public class FrozedDisguise extends JavaPlugin {
 
         FrozedDisguise.skinGenerator = new SkinGenerator();
         FrozedDisguise.nickGenerator = new NickGenerator();
-        this.getServer().getConsoleSender().sendMessage(Messages.CC("&7&m-------------------------------------------"));
+        this.getServer().getConsoleSender().sendMessage(Messages.CC("&7-------------------------------------------"));
+        this.getServer().getConsoleSender().sendMessage(Messages.CC("&b&lFrozedDisguise &8- &3") + getDescription().getVersion());
+        this.getServer().getConsoleSender().sendMessage(" ");
         this.registerListeners();
         this.registerCommands();
-        this.getServer().getConsoleSender().sendMessage(Messages.CC("&7&m-------------------------------------------"));
+        this.getServer().getConsoleSender().sendMessage(Messages.CC("&7-------------------------------------------"));
         NickPlugin.getPlugin().getAPI().setSkinChangingForPlayer(true);
     }
 
@@ -45,26 +47,26 @@ public class FrozedDisguise extends JavaPlugin {
 
     public void registerListeners() {
         Bukkit.getPluginManager().registerEvents(new NickCommand(), this);
-        this.getServer().getConsoleSender().sendMessage(Messages.CC("&eListeners Registered Successfully"));
+        this.getServer().getConsoleSender().sendMessage(Messages.CC("&8 [&b*&8] &3Listeners Registered Successfully"));
     }
 
     public void registerCommands() {
         this.getCommand("nick").setExecutor(new NickCommand());
         this.getCommand("unnick").setExecutor(new UnNickCommand());
         this.getCommand("nicklist").setExecutor(new NickListCommand());
-        this.getServer().getConsoleSender().sendMessage(Messages.CC("&eCommands Registered Successfully"));
+        this.getServer().getConsoleSender().sendMessage(Messages.CC("&8 [&b*&8] &3Commands Registered Successfully"));
     }
 
     public static FrozedDisguise getInstance() {
-        return FrozedDisguise.instance;
+        return instance;
     }
 
     public static SkinGenerator getSkinGenerator() {
-        return FrozedDisguise.skinGenerator;
+        return skinGenerator;
     }
 
     public static NickGenerator getNickGenerator() {
-        return FrozedDisguise.nickGenerator;
+        return nickGenerator;
     }
 
 }

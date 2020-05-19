@@ -37,7 +37,7 @@ public class SkinGenerator {
             String nick = skin.split(":")[0];
             String display = skin.split(":")[1];
             skullmeta.setOwner(nick);
-            skullmeta.setDisplayName(ChatColor.BLUE + display);
+            skullmeta.setDisplayName(ChatColor.AQUA + display);
             skull.setItemMeta(skullmeta);
             SkinGenerator.menu.addItem(skull);
             SkinGenerator.data.put(skull.getItemMeta().getDisplayName(), nick + ":" + display);
