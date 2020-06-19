@@ -23,12 +23,11 @@ public class FrozedDisguise extends JavaPlugin {
 
         if (!this.getDescription().getAuthors().contains("FrozedDevelopment") || !this.getDescription().getAuthors().contains("Elb1to") ||
                 !this.getDescription().getAuthors().contains("Scalebound") || !this.getDescription().getName().equals("FrozedDisguise")) {
+            Bukkit.getPluginManager().disablePlugins();
             for (int i = 0; i < 10; i++) {
                 Bukkit.getServer().broadcastMessage(ChatColor.RED + "Why are you changing the");
                 Bukkit.getServer().broadcastMessage(ChatColor.RED + "plugin yml ( ͡° ͜ʖ ͡°)╭∩╮");
             }
-            System.exit(0);
-            Bukkit.shutdown();
         }
 
         skinGen = new SkinGen();
