@@ -19,7 +19,7 @@ public class FrozedDisguise extends JavaPlugin {
     public static NameGen nameGen;
 
     public void onEnable() {
-        FrozedDisguise.instance = this;
+        instance = this;
 
         if (!this.getDescription().getAuthors().contains("FrozedDevelopment") || !this.getDescription().getAuthors().contains("Elb1to") ||
                 !this.getDescription().getAuthors().contains("Scalebound") || !this.getDescription().getName().equals("FrozedDisguise")) {
@@ -31,8 +31,8 @@ public class FrozedDisguise extends JavaPlugin {
             Bukkit.shutdown();
         }
 
-        FrozedDisguise.skinGen = new SkinGen();
-        FrozedDisguise.nameGen = new NameGen();
+        skinGen = new SkinGen();
+        nameGen = new NameGen();
         this.getServer().getConsoleSender().sendMessage(Messages.CC("&7-------------------------------------------"));
         this.getServer().getConsoleSender().sendMessage(Messages.CC("&b&lFrozedDisguise &8- &3") + getDescription().getVersion());
         this.getServer().getConsoleSender().sendMessage(" ");
