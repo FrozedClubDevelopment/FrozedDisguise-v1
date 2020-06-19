@@ -9,9 +9,11 @@ depend:
   - ProtocolLib
   - NickAPI
 commands:
-  nick:
-    aliases: [disguise, dis, d]
-  unnick:
-    aliases: [undisguise, undis, ud]
-  nicklist:
-    aliases: [disguiselist, dislist]
+  disguise:
+    aliases: [dis, d]
+  undisguise:
+    aliases: [undis, ud]
+  disguiselist:
+    aliases: [dislist]
+  checkuuid:
+    aliases: [uuidcheck]
