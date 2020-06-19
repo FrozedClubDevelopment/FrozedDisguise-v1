@@ -30,6 +30,7 @@ public class SkinGen {
                 "_rsu:Killer", "E_Girl:E-girl", "burningbridge:Link", "BackupDancer:L", "Arro:Arabian", "bennyknight:Badman", "Cheggthemegg:Ricardo Milos",
                 "DonaldTrumpinho:Trump", "CocoDeMedellin:BlackGoku", "SheAGoldDigger:BlueGoku", "DJ_Blazes:Enderman", "Marcel:Marcel", "Zwergoor:Emoji",
                 "HikakinGames:Youtuber", "loudoggydog3010:XXX", "Killer0dead:Rem", "SolluxCaptor:Nezuko", "weebh0e:Shinobu");
+
         SkinGen.menu = Bukkit.createInventory(null, 18, Messages.CC("&8Select an Skin"));
         for (String skin : SkinGen.skins) {
             ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
