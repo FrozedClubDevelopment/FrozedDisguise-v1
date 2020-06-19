@@ -159,8 +159,8 @@ public class DisguiseCmd implements CommandExecutor, Listener {
         }
     }
 
-    /*static {
+    static {
         DisguiseCmd.nickData = new HashMap<>();
-    }*/
+    }
 
 }
