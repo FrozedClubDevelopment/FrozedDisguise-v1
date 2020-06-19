@@ -1,3 +1,7 @@
 
 .idea/workspace.xml
 *.class
+
+target/classes/
+
+target/
