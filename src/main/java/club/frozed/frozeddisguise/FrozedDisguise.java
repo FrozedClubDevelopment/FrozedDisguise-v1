@@ -1,10 +1,11 @@
 package club.frozed.frozeddisguise;
 
-import club.frozed.frozeddisguise.commands.NickCommand;
-import club.frozed.frozeddisguise.commands.NickListCommand;
-import club.frozed.frozeddisguise.commands.UnNickCommand;
-import club.frozed.frozeddisguise.managers.NickGenerator;
-import club.frozed.frozeddisguise.managers.SkinGenerator;
+import club.frozed.frozeddisguise.commands.CheckUuidCommand;
+import club.frozed.frozeddisguise.commands.DisguiseCmd;
+import club.frozed.frozeddisguise.commands.ListCmd;
+import club.frozed.frozeddisguise.commands.UnDisguiseCmd;
+import club.frozed.frozeddisguise.managers.NameGen;
+import club.frozed.frozeddisguise.managers.SkinGen;
 import club.frozed.frozeddisguise.utils.Messages;
 import net.haoshoku.nick.NickPlugin;
 import org.bukkit.Bukkit;
@@ -14,16 +15,15 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class FrozedDisguise extends JavaPlugin {
 
     public static FrozedDisguise instance;
-    public static SkinGenerator skinGenerator;
-    public static NickGenerator nickGenerator;
+    public static SkinGen skinGen;
+    public static NameGen nameGen;
 
     public void onEnable() {
         FrozedDisguise.instance = this;
 
         if (!this.getDescription().getAuthors().contains("FrozedDevelopment") || !this.getDescription().getAuthors().contains("Elb1to") ||
                 !this.getDescription().getAuthors().contains("Scalebound") || !this.getDescription().getName().equals("FrozedDisguise")) {
-            int i;
-            for (i = 0; i < 10; i++) {
+            for (int i = 0; i < 10; i++) {
                 Bukkit.getServer().broadcastMessage(ChatColor.RED + "Why are you changing the");
                 Bukkit.getServer().broadcastMessage(ChatColor.RED + "plugin yml ( ͡° ͜ʖ ͡°)╭∩╮");
             }
@@ -31,8 +31,8 @@ public class FrozedDisguise extends JavaPlugin {
             Bukkit.shutdown();
         }
 
-        FrozedDisguise.skinGenerator = new SkinGenerator();
-        FrozedDisguise.nickGenerator = new NickGenerator();
+        FrozedDisguise.skinGen = new SkinGen();
+        FrozedDisguise.nameGen = new NameGen();
         this.getServer().getConsoleSender().sendMessage(Messages.CC("&7-------------------------------------------"));
         this.getServer().getConsoleSender().sendMessage(Messages.CC("&b&lFrozedDisguise &8- &3") + getDescription().getVersion());
         this.getServer().getConsoleSender().sendMessage(" ");
@@ -42,18 +42,16 @@ public class FrozedDisguise extends JavaPlugin {
         NickPlugin.getPlugin().getAPI().setSkinChangingForPlayer(true);
     }
 
-    public void onDisable() {
-    }
-
     public void registerListeners() {
-        Bukkit.getPluginManager().registerEvents(new NickCommand(), this);
+        Bukkit.getPluginManager().registerEvents(new DisguiseCmd(), this);
         this.getServer().getConsoleSender().sendMessage(Messages.CC("&8 [&b*&8] &3Listeners Registered Successfully"));
     }
 
     public void registerCommands() {
-        this.getCommand("nick").setExecutor(new NickCommand());
-        this.getCommand("unnick").setExecutor(new UnNickCommand());
-        this.getCommand("nicklist").setExecutor(new NickListCommand());
+        this.getCommand("disguise").setExecutor(new DisguiseCmd());
+        this.getCommand("undisguise").setExecutor(new UnDisguiseCmd());
+        this.getCommand("disguiselist").setExecutor(new ListCmd());
+        this.getCommand("checkuuid").setExecutor(new CheckUuidCommand());
         this.getServer().getConsoleSender().sendMessage(Messages.CC("&8 [&b*&8] &3Commands Registered Successfully"));
     }
 
@@ -61,12 +59,12 @@ public class FrozedDisguise extends JavaPlugin {
         return instance;
     }
 
-    public static SkinGenerator getSkinGenerator() {
-        return skinGenerator;
+    public static SkinGen getSkinGen() {
+        return skinGen;
     }
 
-    public static NickGenerator getNickGenerator() {
-        return nickGenerator;
+    public static NameGen getNameGen() {
+        return nameGen;
     }
 
 }
