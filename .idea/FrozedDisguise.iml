@@ -21,22 +21,23 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="Maven: net.haoshoku:nick-api:4.1">
+      <library name="Maven: net.haoshoku.nick:api:5.0">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../libs/NickAPI-v4.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/NickAPI-v5.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="Maven: com.comphenix.protocol:ProtocolLib:4.4.0">
+      <library name="Maven: com.comphenix.protocol:ProtocolLib:4.5.0">
         <CLASSES>
-          <root url="jar://$USER_HOME$/IdeaProjects/libs/ProtocolLib-4.4.0.jar!/" />
+          <root url="jar://$USER_HOME$/IdeaProjects/libs/ProtocolLib-4.5.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.projectlombok:lombok:1.14.8" level="project" />
   </component>
 </module>
