@@ -32,6 +32,7 @@ public class UnDisguiseCmd implements CommandExecutor {
             return true;
         }
         sender.sendMessage(Messages.CC("Usage: /undisguise <name>"));
+
         return true;
     }
 
