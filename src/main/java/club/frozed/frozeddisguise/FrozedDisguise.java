@@ -4,22 +4,33 @@ import club.frozed.frozeddisguise.commands.CheckUuidCommand;
 import club.frozed.frozeddisguise.commands.DisguiseCmd;
 import club.frozed.frozeddisguise.commands.ListCmd;
 import club.frozed.frozeddisguise.commands.UnDisguiseCmd;
+import club.frozed.frozeddisguise.data.PlayerData;
+import club.frozed.frozeddisguise.data.Ranks;
 import club.frozed.frozeddisguise.managers.NameGen;
+import club.frozed.frozeddisguise.managers.RankSelector;
+import club.frozed.frozeddisguise.managers.RanksManager;
 import club.frozed.frozeddisguise.managers.SkinGen;
 import club.frozed.frozeddisguise.utils.Messages;
-import net.haoshoku.nick.NickPlugin;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
+@Getter
 public class FrozedDisguise extends JavaPlugin {
 
     public static FrozedDisguise instance;
     public static SkinGen skinGen;
     public static NameGen nameGen;
+    
+    public Ranks ranks;
+    public PlayerData playerData;
+    public RanksManager ranksManager;
+    public static RankSelector rankSelector;
 
     public void onEnable() {
         instance = this;
+        this.saveDefaultConfig();
 
         if (!this.getDescription().getAuthors().contains("FrozedDevelopment") || !this.getDescription().getAuthors().contains("Elb1to") ||
                 !this.getDescription().getAuthors().contains("Scalebound") || !this.getDescription().getName().equals("FrozedDisguise")) {
@@ -30,6 +41,7 @@ public class FrozedDisguise extends JavaPlugin {
             }
         }
 
+        rankSelector = new RankSelector();
         skinGen = new SkinGen();
         nameGen = new NameGen();
         this.getServer().getConsoleSender().sendMessage(Messages.CC("&7-------------------------------------------"));
@@ -37,8 +49,8 @@ public class FrozedDisguise extends JavaPlugin {
         this.getServer().getConsoleSender().sendMessage(" ");
         this.registerListeners();
         this.registerCommands();
+        //this.ranksManager.loadRanks();
         this.getServer().getConsoleSender().sendMessage(Messages.CC("&7-------------------------------------------"));
-        NickPlugin.getPlugin().getAPI().setSkinChangingForPlayer(true);
     }
 
     public void registerListeners() {
@@ -64,6 +76,10 @@ public class FrozedDisguise extends JavaPlugin {
 
     public static NameGen getNameGen() {
         return nameGen;
+    }
+
+    public static RankSelector getRankSelector() {
+        return rankSelector;
     }
 
 }
