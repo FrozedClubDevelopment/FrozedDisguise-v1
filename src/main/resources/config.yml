@@ -1,0 +1,38 @@
+# The words written on this list will prevent
+# players from using them while disguising
+#
+# Example: If someone tries to disguise as "LafuckingFlame"
+# the player won't be able to do it, because it contains "fuck" in the name
+FILTERED-WORDS:
+  - "fuck"
+  - "cunt"
+  - "nigga"
+  - "bitch"
+  ######################
+  # Special characters #
+  ######################
+  - "#"
+  - "$"
+  - ";"
+  - "."
+  - ","
+  - "-"
+  - "+"
+  - "?"
+  - "'"
+  - "¿"
+  - "}"
+  - "{"
+  - "["
+  - "]"
+  - "@"
+  - "!"
+  - "¡"
+  - "("
+  - ")"
+  - "="
+  - "&"
+  - "%"
+  - "~"
+  - "*"
+  - "`"
