@@ -16,10 +16,12 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class DisguiseCmd implements CommandExecutor, Listener {
 
     public static HashMap<Player, String> nickData;
+    List<String> filteredWord = FrozedDisguise.getInstance().getConfig().getStringList("FILTERED-WORDS");
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (!(sender instanceof Player)) {
@@ -42,15 +44,17 @@ public class DisguiseCmd implements CommandExecutor, Listener {
                 return true;
             }
 
-            for (Player p : FrozedDisguise.getInstance().getServer().getOnlinePlayers()) {
-                if (p.getName().equalsIgnoreCase(args[0])) {
-                    player.sendMessage(Messages.CC("&cThat name is already used."));
-                    return true;
-                }
+            if (isNameUsed(args, player)) {
+                return true;
             }
 
-            DisguiseCmd.nickData.put(player, args[0]);
+            if (isFiltered(args, player)) {
+                return true;
+            }
+
+            nickData.put(player, args[0]);
             player.openInventory(SkinGen.menu);
+            //player.openInventory(RankSelector.menu);
         }
 
         if (args.length == 2) {
@@ -59,14 +63,15 @@ public class DisguiseCmd implements CommandExecutor, Listener {
                 return true;
             }
 
-            for (Player p : FrozedDisguise.getInstance().getServer().getOnlinePlayers()) {
-                if (p.getName().equalsIgnoreCase(args[0])) {
-                    player.sendMessage(Messages.CC("&cThat name is already used."));
-                    return true;
-                }
+            if (isNameUsed(args, player)) {
+                return true;
             }
 
-            DisguiseCmd.nickData.put(player, args[0]);
+            if (isFiltered(args, player)) {
+                return true;
+            }
+
+            nickData.put(player, args[0]);
 
             NickPlugin.getPlugin().getAPI().nick(player, args[0]);
             NickPlugin.getPlugin().getAPI().setSkin(player, args[1]);
@@ -108,8 +113,8 @@ public class DisguiseCmd implements CommandExecutor, Listener {
             String display = SkinGen.data.get(event.getCurrentItem().getItemMeta().getDisplayName()).split(":")[1];
 
             String nick;
-            if (DisguiseCmd.nickData.get(player) != null) {
-                nick = DisguiseCmd.nickData.get(player);
+            if (nickData.get(player) != null) {
+                nick = nickData.get(player);
             } else {
                 nick = NameGen.generate();
             }
@@ -159,8 +164,28 @@ public class DisguiseCmd implements CommandExecutor, Listener {
         }
     }
 
+    private boolean isNameUsed(String[] args, Player player) {
+        for (Player p : FrozedDisguise.getInstance().getServer().getOnlinePlayers()) {
+            if (p.getName().equalsIgnoreCase(args[0])) {
+                player.sendMessage(Messages.CC("&cThat name is already used."));
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // TODO: Make it check if the name contains a filtered word in between, before or after the text
+
+    private boolean isFiltered(String[] args, Player player) {
+        if (filteredWord.contains(args[0].toLowerCase())) {
+            player.sendMessage(Messages.CC("&cYou can't use that name because it contains a filtered word in it!"));
+            return true;
+        }
+        return false;
+    }
+
     static {
-        DisguiseCmd.nickData = new HashMap<>();
+        nickData = new HashMap<>();
     }
 
 }
