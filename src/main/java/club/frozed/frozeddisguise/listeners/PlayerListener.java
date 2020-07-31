@@ -1,38 +1,38 @@
 package club.frozed.frozeddisguise.listeners;
 
 import club.frozed.frozeddisguise.FrozedDisguise;
-import club.frozed.frozeddisguise.data.PlayerData;
-import club.frozed.frozeddisguise.data.Ranks;
+import club.frozed.frozeddisguise.managers.PlayerManager;
+import club.frozed.frozeddisguise.ranks.Ranks;
 import club.frozed.frozeddisguise.utils.Messages;
-import net.haoshoku.nick.NickPlugin;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
+import xyz.haoshoku.nick.NickPlugin;
 
 public class PlayerListener implements Listener {
 
-    /*
-     * The Rank Selector feature is
-     * still under development
-     */
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerChat(AsyncPlayerChatEvent event) {
 
-    @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent e) {
-        Player player = e.getPlayer();
-        NickPlugin.getPlugin().getAPI().setSkin(player, String.valueOf(player));
-        NickPlugin.getPlugin().getAPI().refreshPlayer(player);
-    }
+        Player player = event.getPlayer();
+        String message = event.getMessage();
+        Ranks rank = PlayerManager.getRank(player);
 
-    /*@EventHandler
-    public void onChat(AsyncPlayerChatEvent e) {
-        Player player = e.getPlayer();
-        Ranks ranks = FrozedDisguise.getInstance().getRanks();
-        PlayerData playerData = FrozedDisguise.getInstance().getPlayerData();
-
-        if (playerData.isDisguised(player)) {
-            e.setFormat(Messages.CC(ranks.getPrefix() + player.getName() + ranks.getSuffix() + "&7: " + ranks.getChatColor() + e.getMessage()));
+        if (FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.CHAT-FORMAT")) {
+            if (FrozedDisguise.getRankManager().getRanks().contains(rank)) {
+                event.setFormat(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("BOOLEANS.FORMAT-WITH-RANK")
+                        .replaceAll("<rank>", rank.getPrefix())
+                        .replaceAll("<player>", player.getName())
+                        .replaceAll("<msg>", message.replaceAll("%", "%%").replaceAll("\\$", "\\\\\\$")))
+                );
+            } else if (NickPlugin.getPlugin().getAPI().isNicked(player.getPlayer())) {
+                event.setFormat(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("BOOLEANS.FORMAT-WITHOUT-RANK")
+                        .replaceAll("<player>", player.getName())
+                        .replaceAll("<msg>", message.replaceAll("%", "%%").replaceAll("\\$", "\\\\\\$")))
+                );
+            }
         }
-    }*/
+    }
 }
