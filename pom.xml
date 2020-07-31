@@ -6,7 +6,7 @@
 
     <groupId>club.frozed.frozeddisguise</groupId>
     <artifactId>FrozedDisguise</artifactId>
-    <version>1.3</version>
+    <version>1.7</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -27,20 +27,11 @@
 
         <!-- NickAPI -->
         <dependency>
-            <groupId>net.haoshoku.nick</groupId>
-            <artifactId>api</artifactId>
-            <version>5.0</version>
+            <groupId>xyz.haoshoku.nick</groupId>
+            <artifactId>nickapi</artifactId>
+            <version>5.0.2-SNAPSHOT</version>
             <scope>system</scope>
-            <systemPath>C:/Users/Elb1to/Documents/GitHub/FrozedDevelopment/libs/NickAPI-v5.0.jar</systemPath>
-        </dependency>
-
-        <!--ProtocolLib-->
-        <dependency>
-            <groupId>com.comphenix.protocol</groupId>
-            <artifactId>ProtocolLib</artifactId>
-            <version>4.5.0</version>
-            <scope>system</scope>
-            <systemPath>C:/Users/Elb1to/IdeaProjects/libs/ProtocolLib-4.5.0.jar</systemPath>
+            <systemPath>C:/Users/Elb1to/Documents/GitHub/FrozedDevelopment/libs/NickAPI-v5.0.2.jar</systemPath>
         </dependency>
 
         <!-- Lombok -->
