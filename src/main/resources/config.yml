@@ -1,3 +1,45 @@
+BOOLEANS:
+  ENABLE-SKINS-MENU: true
+  TABLIST_NAME_COLOR: true
+  SHOW-DISGUISED-MSG: true
+  SEND-DISGUISE-ALERT: true
+  ALLOW-DISGUISE-RANK-WITHOUT-BEING-DISGUISED: false
+
+  CHAT-FORMAT: true
+  FORMAT-WITH-RANK: "<rank><player>&7: &f<msg>"
+  FORMAT-WITHOUT-RANK: "&b<player>&7: &f<msg>"
+
+MESSAGES:
+  DISGUISE-MESSAGE:
+    - "&8&m--------------------------------------------------"
+    - "&b&lYOU ARE NOW DISGUISED!"
+    - " "
+    - "&bName&7: &f<disguise_name>"
+    - "&bSkin&7: &f<disguise_skin>"
+    - " "
+    - "&4&lIf &ca player with the name you've chosen"
+    - "&cto disguise as connects, you'll be kicked."
+    - "&8&m--------------------------------------------------"
+
+  DISGUISE-ALERT: "&8[&b&l!&8] &f<player> &7has disguised as &f<disguise_name>"
+  DISGUISE-ALERT-WITH-SKIN: "&8[&b&l!&8] &f<player> &7has disguised as &f<disguise_name> &7with the skin of &f<disguise_skin>"
+
+  DISGUISE-NAME-IN-USE: "&cThat name is already used."
+  DISGUISE-NAME-FILTERED: "&cYou can't use that name because it contains a filtered word in it!"
+
+  DISGUISE-RANK-SELECTED: "&aYou have successfully chosen the rank &b<rankName> &afor your disguise!"
+  DISGUISE-REQUIRED-FOR-RANK: "&cYou need to be disguised to be able to use this!"
+  DISGUISE-RANK-NO-PERMISSION: "&cYou don't have permission to use the rank &l<rankName> &cfor your disguise."
+
+  NOT-DISGUISED: "&cYou are not disguised currently."
+  NO-PLAYERS-DISGUISED: "&cThere are no players currently disguised."
+  SUCCESSFULLY-UNDISGUISED: "&aYou were successfully un-disguised!"
+
+  UUID-CHECK-PLAYER-NOT-FOUND: "&cThe specified player couldn't be found."
+
+  NO-PERMISSION-TO-USE: "&cYou don't have permissions to use this command."
+  KICKED-BECAUSE-OF-PLAYER-CONNECTION: "&cYou were kicked because a player with the name you were disguised connected."
+
 # The words written on this list will prevent
 # players from using them while disguising
 #
