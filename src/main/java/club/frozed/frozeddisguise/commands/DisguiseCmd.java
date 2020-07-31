@@ -1,10 +1,9 @@
 package club.frozed.frozeddisguise.commands;
 
 import club.frozed.frozeddisguise.FrozedDisguise;
-import club.frozed.frozeddisguise.managers.NameGen;
-import club.frozed.frozeddisguise.managers.SkinGen;
+import club.frozed.frozeddisguise.managers.NamesManager;
+import club.frozed.frozeddisguise.managers.SkinsManager;
 import club.frozed.frozeddisguise.utils.Messages;
-import net.haoshoku.nick.NickPlugin;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,13 +13,19 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.scheduler.BukkitRunnable;
+import xyz.haoshoku.nick.NickPlugin;
 
 import java.util.HashMap;
 import java.util.List;
 
 public class DisguiseCmd implements CommandExecutor, Listener {
 
-    public static HashMap<Player, String> nickData;
+    public static HashMap<Player, String> nickData = new HashMap<>();
+
+    boolean toggleSkinsMenu = FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.ENABLE-SKINS-MENU");
+    boolean sendDisguiseMsg = FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.SHOW-DISGUISED-MSG");
+    boolean sendStaffAlert = FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.SEND-DISGUISE-ALERT");
+
     List<String> filteredWord = FrozedDisguise.getInstance().getConfig().getStringList("FILTERED-WORDS");
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -29,18 +34,54 @@ public class DisguiseCmd implements CommandExecutor, Listener {
         }
 
         if (!sender.hasPermission("frozed.disguise")) {
-            sender.sendMessage(Messages.CC("&cNo permission."));
+            sender.sendMessage(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.NO-PERMISSION-TO-USE")));
             return true;
         }
 
         Player player = (Player) sender;
         if (args.length == 0) {
-            player.openInventory(SkinGen.menu);
+            if (toggleSkinsMenu) {
+                player.openInventory(SkinsManager.menu);
+            } else {
+                String disguiseName;
+                String disguiseSkin = SkinsManager.generate().split(":")[0];
+
+                if (nickData.get(player) != null) {
+                    disguiseName = nickData.get(player);
+                } else {
+                    disguiseName = NamesManager.generate();
+                }
+
+                player.setDisplayName(disguiseName);
+                NickPlugin.getPlugin().getAPI().nick(player, disguiseName);
+                NickPlugin.getPlugin().getAPI().setGameProfileName(player, disguiseName);
+
+                NickPlugin.getPlugin().getAPI().setSkin(player, disguiseSkin);
+                NickPlugin.getPlugin().getAPI().refreshPlayer(player);
+
+                if (sendDisguiseMsg) {
+                    for (String message : FrozedDisguise.getInstance().getConfig().getStringList("MESSAGES.DISGUISE-MESSAGE")) {
+                        Messages.sendMessageToPlayer(message.replaceAll("<disguise_name>", disguiseName).replaceAll("<disguise_skin>", disguiseSkin), player);
+                    }
+                }
+
+                for (Player p : FrozedDisguise.getInstance().getServer().getOnlinePlayers()) {
+                    if (p.hasPermission("frozed.disguise.alerts")) {
+                        if (sendStaffAlert) {
+                            p.sendMessage(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.DISGUISE-ALERT-WITH-SKIN"))
+                                    .replaceAll("<player>", NickPlugin.getPlugin().getAPI().getOriginalGameProfileName(player))
+                                    .replaceAll("<disguise_name>", disguiseName)
+                                    .replaceAll("<disguise_skin>", disguiseSkin)
+                            );
+                        }
+                    }
+                }
+            }
         }
 
         if (args.length == 1) {
             if (!sender.hasPermission("frozed.disguise.name")) {
-                sender.sendMessage(Messages.CC("&cNo permission."));
+                sender.sendMessage(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.NO-PERMISSION-TO-USE")));
                 return true;
             }
 
@@ -52,14 +93,43 @@ public class DisguiseCmd implements CommandExecutor, Listener {
                 return true;
             }
 
-            nickData.put(player, args[0]);
-            player.openInventory(SkinGen.menu);
-            //player.openInventory(RankSelector.menu);
+            //nickData.put(player, args[0]);
+
+            if (toggleSkinsMenu) {
+                player.openInventory(SkinsManager.menu);
+            } else {
+                String disguiseSkin = SkinsManager.generate().split(":")[0];
+
+                player.setDisplayName(args[0]);
+                NickPlugin.getPlugin().getAPI().nick(player, args[0]);
+                NickPlugin.getPlugin().getAPI().setGameProfileName(player, args[0]);
+
+                NickPlugin.getPlugin().getAPI().setSkin(player, disguiseSkin);
+                NickPlugin.getPlugin().getAPI().refreshPlayer(player);
+
+                if (sendDisguiseMsg) {
+                    for (String message : FrozedDisguise.getInstance().getConfig().getStringList("MESSAGES.DISGUISE-MESSAGE")) {
+                        Messages.sendMessageToPlayer(message.replaceAll("<disguise_name>", args[0]).replaceAll("<disguise_skin>", disguiseSkin), player);
+                    }
+                }
+
+                for (Player p : FrozedDisguise.getInstance().getServer().getOnlinePlayers()) {
+                    if (p.hasPermission("frozed.disguise.alerts")) {
+                        if (sendStaffAlert) {
+                            p.sendMessage(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.DISGUISE-ALERT-WITH-SKIN"))
+                                    .replaceAll("<player>", NickPlugin.getPlugin().getAPI().getOriginalGameProfileName(player))
+                                    .replaceAll("<disguise_name>", args[0])
+                                    .replaceAll("<disguise_skin>", disguiseSkin)
+                            );
+                        }
+                    }
+                }
+            }
         }
 
         if (args.length == 2) {
             if (!sender.hasPermission("frozed.disguise.name.skin")) {
-                sender.sendMessage(Messages.CC("&cNo permission."));
+                sender.sendMessage(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.NO-PERMISSION-TO-USE")));
                 return true;
             }
 
@@ -71,26 +141,30 @@ public class DisguiseCmd implements CommandExecutor, Listener {
                 return true;
             }
 
-            nickData.put(player, args[0]);
+            //nickData.put(player, args[0]);
 
+            player.setDisplayName(args[0]);
             NickPlugin.getPlugin().getAPI().nick(player, args[0]);
-            NickPlugin.getPlugin().getAPI().setSkin(player, args[1]);
             NickPlugin.getPlugin().getAPI().setGameProfileName(player, args[0]);
+
+            NickPlugin.getPlugin().getAPI().setSkin(player, args[1]);
             NickPlugin.getPlugin().getAPI().refreshPlayer(player);
 
-            player.sendMessage(Messages.CC("&7&m--------------------------------------------------"));
-            player.sendMessage(Messages.CC("&b&lYOU ARE NOW DISGUISED!"));
-            player.sendMessage(Messages.CC(" "));
-            player.sendMessage(Messages.CC("&bName&7: &f") + args[0]);
-            player.sendMessage(Messages.CC("&bSkin&7: &f") + args[1]);
-            player.sendMessage(Messages.CC(" "));
-            player.sendMessage(Messages.CC("&4&lIF &ca player with the name you've chosen"));
-            player.sendMessage(Messages.CC("&cto disguise as connects, you'll be kicked."));
-            player.sendMessage(Messages.CC("&7&m--------------------------------------------------"));
+            if (sendDisguiseMsg) {
+                for (String message : FrozedDisguise.getInstance().getConfig().getStringList("MESSAGES.DISGUISE-MESSAGE")) {
+                    Messages.sendMessageToPlayer(message.replaceAll("<disguise_name>", String.valueOf(args[0])).replaceAll("<disguise_skin>", String.valueOf(args[1])), player);
+                }
+            }
 
             for (Player p : FrozedDisguise.getInstance().getServer().getOnlinePlayers()) {
                 if (p.hasPermission("frozed.disguise.alerts")) {
-                    p.sendMessage(Messages.CC("&8[&b❖&8] &f" + NickPlugin.getPlugin().getAPI().getOriginalGameProfileName(player) + " &7has disguised as &f" + args[0] + "&7 with the skin of &f" + args[1]));
+                    if (sendStaffAlert) {
+                        p.sendMessage(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.DISGUISE-ALERT-WITH-SKIN"))
+                                .replaceAll("<player>", NickPlugin.getPlugin().getAPI().getOriginalGameProfileName(player))
+                                .replaceAll("<disguise_name>", String.valueOf(args[0]))
+                                .replaceAll("<disguise_skin>", String.valueOf(args[1]))
+                        );
+                    }
                 }
             }
         }
@@ -103,41 +177,45 @@ public class DisguiseCmd implements CommandExecutor, Listener {
         if (event.getInventory().getTitle().equalsIgnoreCase(Messages.CC("&8Select an Skin"))) {
             event.setCancelled(true);
 
-            if (event.getCurrentItem() == null || event.getCurrentItem() == null || SkinGen.data.get(event.getCurrentItem().getItemMeta().getDisplayName()) == null) {
+            if (event.getCurrentItem() == null || !event.getCurrentItem().hasItemMeta() || SkinsManager.data.get(event.getCurrentItem().getItemMeta().getDisplayName()) == null) {
                 return;
             }
 
             Player player = (Player) event.getWhoClicked();
             String before = player.getName();
-            String name = SkinGen.data.get(event.getCurrentItem().getItemMeta().getDisplayName()).split(":")[0];
-            String display = SkinGen.data.get(event.getCurrentItem().getItemMeta().getDisplayName()).split(":")[1];
+            String name = SkinsManager.data.get(event.getCurrentItem().getItemMeta().getDisplayName()).split(":")[0];
+            String display = SkinsManager.data.get(event.getCurrentItem().getItemMeta().getDisplayName()).split(":")[1];
 
             String nick;
             if (nickData.get(player) != null) {
                 nick = nickData.get(player);
             } else {
-                nick = NameGen.generate();
+                nick = NamesManager.generate();
             }
 
+            player.setDisplayName(nick);
             NickPlugin.getPlugin().getAPI().nick(player, nick);
-            NickPlugin.getPlugin().getAPI().setSkin(player, name);
             NickPlugin.getPlugin().getAPI().setGameProfileName(player, nick);
+
+            NickPlugin.getPlugin().getAPI().setSkin(player, name);
             NickPlugin.getPlugin().getAPI().refreshPlayer(player);
 
             player.getOpenInventory().close();
-            player.sendMessage(Messages.CC("&7&m--------------------------------------------------"));
-            player.sendMessage(Messages.CC("&b&lYOU ARE NOW DISGUISED!"));
-            player.sendMessage(Messages.CC(" "));
-            player.sendMessage(Messages.CC("&bName&7: &f") + nick);
-            player.sendMessage(Messages.CC("&bSkin&7: &f") + display);
-            player.sendMessage(Messages.CC(" "));
-            player.sendMessage(Messages.CC("&4&lIF &ca player with the name you've chosen"));
-            player.sendMessage(Messages.CC("&cto disguise as connects, you'll be kicked."));
-            player.sendMessage(Messages.CC("&7&m--------------------------------------------------"));
+
+            if (sendDisguiseMsg) {
+                for (String message : FrozedDisguise.getInstance().getConfig().getStringList("MESSAGES.DISGUISE-MESSAGE")) {
+                    Messages.sendMessageToPlayer(message.replaceAll("<disguise_name>", String.valueOf(nick)).replaceAll("<disguise_skin>", String.valueOf(display)), player);
+                }
+            }
 
             for (Player p : FrozedDisguise.getInstance().getServer().getOnlinePlayers()) {
                 if (p.hasPermission("frozed.disguise.alerts")) {
-                    p.sendMessage(Messages.CC("&8[&b❖&8] &f" + before + " &7has disguised as &f" + nick));
+                    if (sendStaffAlert) {
+                        p.sendMessage(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.DISGUISE-ALERT"))
+                                .replaceAll("<player>", before)
+                                .replaceAll("<disguise_name>", nick)
+                        );
+                    }
                 }
             }
 
@@ -156,7 +234,7 @@ public class DisguiseCmd implements CommandExecutor, Listener {
             if (event.getName().equalsIgnoreCase(player.getName())) {
                 BukkitRunnable bukkitRunnable = new BukkitRunnable() {
                     public void run() {
-                        player.kickPlayer(Messages.CC("&cYou were kicked because a player with the name you were disguised connected."));
+                        player.kickPlayer(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.KICKED-BECAUSE-OF-PLAYER-CONNECTION")));
                     }
                 };
                 bukkitRunnable.runTaskLater(FrozedDisguise.getInstance(), 3L);
@@ -167,7 +245,7 @@ public class DisguiseCmd implements CommandExecutor, Listener {
     private boolean isNameUsed(String[] args, Player player) {
         for (Player p : FrozedDisguise.getInstance().getServer().getOnlinePlayers()) {
             if (p.getName().equalsIgnoreCase(args[0])) {
-                player.sendMessage(Messages.CC("&cThat name is already used."));
+                player.sendMessage(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.DISGUISE-NAME-IN-USE")));
                 return true;
             }
         }
@@ -175,17 +253,11 @@ public class DisguiseCmd implements CommandExecutor, Listener {
     }
 
     // TODO: Make it check if the name contains a filtered word in between, before or after the text
-
     private boolean isFiltered(String[] args, Player player) {
         if (filteredWord.contains(args[0].toLowerCase())) {
-            player.sendMessage(Messages.CC("&cYou can't use that name because it contains a filtered word in it!"));
+            player.sendMessage(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.DISGUISE-NAME-FILTERED")));
             return true;
         }
         return false;
     }
-
-    static {
-        nickData = new HashMap<>();
-    }
-
 }
