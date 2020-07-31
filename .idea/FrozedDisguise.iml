@@ -21,18 +21,9 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="Maven: net.haoshoku.nick:api:5.0">
+      <library name="Maven: xyz.haoshoku.nick:nickapi:5.0.2-SNAPSHOT">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../libs/NickAPI-v5.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Maven: com.comphenix.protocol:ProtocolLib:4.5.0">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/IdeaProjects/libs/ProtocolLib-4.5.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/NickAPI-v5.0.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
