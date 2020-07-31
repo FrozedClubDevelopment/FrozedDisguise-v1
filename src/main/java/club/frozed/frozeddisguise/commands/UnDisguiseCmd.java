@@ -1,11 +1,12 @@
 package club.frozed.frozeddisguise.commands;
 
+import club.frozed.frozeddisguise.FrozedDisguise;
 import club.frozed.frozeddisguise.utils.Messages;
-import net.haoshoku.nick.NickPlugin;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import xyz.haoshoku.nick.NickPlugin;
 
 public class UnDisguiseCmd implements CommandExecutor {
 
@@ -15,7 +16,7 @@ public class UnDisguiseCmd implements CommandExecutor {
         }
 
         if (!sender.hasPermission("frozed.disguise")) {
-            sender.sendMessage(Messages.CC("&cNo permission."));
+            sender.sendMessage(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.NO-PERMISSION-TO-USE")));
             return true;
         }
 
@@ -25,13 +26,13 @@ public class UnDisguiseCmd implements CommandExecutor {
                 NickPlugin.getPlugin().getAPI().unnick(player);
                 NickPlugin.getPlugin().getAPI().resetGameProfileName(player);
                 NickPlugin.getPlugin().getAPI().refreshPlayer(player);
-                player.sendMessage(Messages.CC("&aSuccess! You are no longer disguised."));
+                sender.sendMessage(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.SUCCESSFULLY-UNDISGUISED")));
             } else {
-                player.sendMessage(Messages.CC("&cYou are not disguised."));
+                sender.sendMessage(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.NOT-DISGUISED")));
             }
             return true;
         }
-        sender.sendMessage(Messages.CC("Usage: /undisguise <name>"));
+        sender.sendMessage(Messages.CC("&cUsage: /undisguise <name>"));
 
         return true;
     }
