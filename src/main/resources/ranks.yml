@@ -1,0 +1,32 @@
+# FrozedDisguise - Ranks
+#
+# All the ranks will be displayed in this same order, so let's say
+# we currently have the following order in this file
+#
+# Owner, Developer, Admin, Mod, Helper, Vip, User
+#
+# The ranks will appear in the same order on the Disguise Ranks GUI
+# You can have a maximum of 14 ranks displayed in the GUI (atm)
+# if the customers need more slots, I'll increase it to 22 ranks max
+Ranks:
+  Owner:
+    prefix: "&8[&4Owner&8] &4"
+    nameColor: "&4"
+  Developer:
+    prefix: "&8[&bDev&8] &3❖ &b"
+    nameColor: "&b"
+  Admin:
+    prefix: "&8[&cAdmin&8] &c"
+    nameColor: "&c"
+  Mod:
+    prefix: "&8[&2Mod&8] &2"
+    nameColor: "&2"
+  Helper:
+    prefix: "&8[&eHelper&8] &e"
+    nameColor: "&e"
+  Vip:
+    prefix: "&8[&aVIP&8] &a"
+    nameColor: "&a"
+  User:
+    prefix: "&a"
+    nameColor: "&a"
