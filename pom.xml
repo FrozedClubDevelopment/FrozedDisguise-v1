@@ -6,7 +6,7 @@
 
     <groupId>club.frozed.frozeddisguise</groupId>
     <artifactId>FrozedDisguise</artifactId>
-    <version>1.7-Hotfix</version>
+    <version>1.8</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
