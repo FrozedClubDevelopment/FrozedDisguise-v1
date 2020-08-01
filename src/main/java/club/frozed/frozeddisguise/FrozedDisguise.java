@@ -18,6 +18,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 
+import static org.yaml.snakeyaml.nodes.Tag.YAML;
+
 @Getter
 public class FrozedDisguise extends JavaPlugin {
 
@@ -90,7 +92,6 @@ public class FrozedDisguise extends JavaPlugin {
         this.getCommand("disguiserank").setExecutor(new DisguiseRankCmd());
         this.getCommand("undisguiserank").setExecutor(new UndisguiseRankCmd());
         this.getCommand("frozeddisguise").setExecutor(new FrozedDisguiseCmd());
-        this.getCommand("frozeddisguise reload").setExecutor(new ReloadCmd());
 
         this.getServer().getConsoleSender().sendMessage(Messages.CC("&8 [&b*&8] &3Commands Registered Successfully"));
     }
@@ -109,6 +110,11 @@ public class FrozedDisguise extends JavaPlugin {
 
     public static RanksManager getRankManager() {
         return ranksManager;
+    }
+
+    @Override
+    public FileConfiguration getConfig() {
+        return YamlConfiguration.loadConfiguration(new File(this.getDataFolder(), "config.yml"));
     }
 
 }
