@@ -28,8 +28,10 @@ MESSAGES:
   DISGUISE-NAME-FILTERED: "&cYou can't use that name because it contains a filtered word in it!"
 
   DISGUISE-RANK-SELECTED: "&aYou have successfully chosen the rank &b<rankName> &afor your disguise!"
+  NO-DISGUISE-RANK-ACTIVE: "&cYou don't have any disguise rank currently active!"
   DISGUISE-REQUIRED-FOR-RANK: "&cYou need to be disguised to be able to use this!"
   DISGUISE-RANK-NO-PERMISSION: "&cYou don't have permission to use the rank &l<rankName> &cfor your disguise."
+  DISGUISE-RANK-SUCCESSFULLY-REMOVED: "&aYou have successfully removed your active disguise rank!"
 
   NOT-DISGUISED: "&cYou are not disguised currently."
   NO-PLAYERS-DISGUISED: "&cThere are no players currently disguised."
