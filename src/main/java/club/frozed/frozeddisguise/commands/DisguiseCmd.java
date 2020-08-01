@@ -22,13 +22,12 @@ public class DisguiseCmd implements CommandExecutor, Listener {
 
     public static HashMap<Player, String> nickData = new HashMap<>();
 
-    boolean toggleSkinsMenu = FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.ENABLE-SKINS-MENU");
-    boolean sendDisguiseMsg = FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.SHOW-DISGUISED-MSG");
-    boolean sendStaffAlert = FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.SEND-DISGUISE-ALERT");
-
-    List<String> filteredWord = FrozedDisguise.getInstance().getConfig().getStringList("FILTERED-WORDS");
-
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+
+        boolean toggleSkinsMenu = FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.ENABLE-SKINS-MENU");
+        boolean sendDisguiseMsg = FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.SHOW-DISGUISED-MSG");
+        boolean sendStaffAlert = FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.SEND-DISGUISE-ALERT");
+
         if (!(sender instanceof Player)) {
             return true;
         }
@@ -174,6 +173,10 @@ public class DisguiseCmd implements CommandExecutor, Listener {
 
     @EventHandler
     public void onClick(InventoryClickEvent event) {
+
+        boolean sendDisguiseMsg = FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.SHOW-DISGUISED-MSG");
+        boolean sendStaffAlert = FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.SEND-DISGUISE-ALERT");
+
         if (event.getInventory().getTitle().equalsIgnoreCase(Messages.CC("&8Select an Skin"))) {
             event.setCancelled(true);
 
@@ -254,6 +257,7 @@ public class DisguiseCmd implements CommandExecutor, Listener {
 
     // TODO: Make it check if the name contains a filtered word in between, before or after the text
     private boolean isFiltered(String[] args, Player player) {
+        List<String> filteredWord = FrozedDisguise.getInstance().getConfig().getStringList("FILTERED-WORDS");
         if (filteredWord.contains(args[0].toLowerCase())) {
             player.sendMessage(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.DISGUISE-NAME-FILTERED")));
             return true;
