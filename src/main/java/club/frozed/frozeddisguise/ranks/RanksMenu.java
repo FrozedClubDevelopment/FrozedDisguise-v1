@@ -64,7 +64,8 @@ public class RanksMenu extends Menu {
                             "&fFormat: " + rank.getPrefix() + player.getName() + "&7: &fHi!",
                             " ",
                             "&7Click to select this rank!",
-                            "&7&m--------------------------------").build();
+                            "&7&m--------------------------------"
+                    ).build();
         }
 
         @Override
@@ -105,10 +106,10 @@ public class RanksMenu extends Menu {
             playFail(player);
             PlayerManager.rankData.remove(player);
             if (FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.TABLIST_NAME_COLOR")) {
-                player.setPlayerListName(player.getDisplayName());
+                player.setPlayerListName(null);
             }
             player.closeInventory();
-            player.sendMessage(ChatColor.GREEN + "Success! " + ChatColor.GRAY + "You removed your current rank.");
+            player.sendMessage(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.DISGUISE-RANK-SUCCESSFULLY-REMOVED")));
         }
     }
 
