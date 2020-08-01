@@ -24,5 +24,3 @@ commands:
     aliases: [undisrank, udrank, udr]
   frozeddisguise:
     aliases: [fd, frozeddis, frozedclub]
-  frozeddisguise reload:
-    aliases: [fdr, fdreload, frozeddisreload]
