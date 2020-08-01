@@ -1,5 +1,5 @@
 name: FrozedDisguise
-version: 1.7-Hotfix
+version: 1.8
 main: club.frozed.frozeddisguise.FrozedDisguise
 authors:
   - Elb1to
@@ -20,5 +20,9 @@ commands:
     aliases: [dishelp, dhelp]
   disguiserank:
     aliases: [disrank, drank, dr]
+  undisguiserank:
+    aliases: [undisrank, udrank, udr]
   frozeddisguise:
     aliases: [fd, frozeddis, frozedclub]
+  frozeddisguise reload:
+    aliases: [fdr, fdreload, frozeddisreload]
