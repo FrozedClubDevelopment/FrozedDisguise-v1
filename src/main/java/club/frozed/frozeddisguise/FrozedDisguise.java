@@ -5,7 +5,6 @@ import club.frozed.frozeddisguise.listeners.PlayerListener;
 import club.frozed.frozeddisguise.managers.NamesManager;
 import club.frozed.frozeddisguise.managers.PlayerManager;
 import club.frozed.frozeddisguise.managers.SkinsManager;
-import club.frozed.frozeddisguise.commands.DisguiseRankCmd;
 import club.frozed.frozeddisguise.ranks.RanksManager;
 import club.frozed.frozeddisguise.utils.Messages;
 import club.frozed.frozeddisguise.utils.menu.ButtonListener;
@@ -17,8 +16,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-
-import static org.yaml.snakeyaml.nodes.Tag.YAML;
 
 @Getter
 public class FrozedDisguise extends JavaPlugin {
