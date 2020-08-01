@@ -94,7 +94,7 @@ public class NamesManager {
                 "Detect", "Dinner", "Direct", "Dirt", "Dirty", "Doctor", "Down", "Drama", "Draw", "Dream", "Drop", "Earth", "Eat", "Easy", "Editor", "Effect", "Eight",
                 "Elect", "Effort", "Emote", "Enter", "Engine", "Enemy", "Empty", "Entry", "Error", "Enough", "Every", "Exact", "Eye", "Expert", "Face", "Fact", "Fade",
                 "Fail", "Family", "Famous", "Farmer", "Father", "Fight", "Find", "Finger", "Fire", "First", "Fit", "Fix", "Fish", "Field", "Floor", "Focus", "Fly",
-                "Forest", "Force", "Frame");
+                "Forest", "Force", "Frame", "Uber");
 
         NamesManager.longWords = Arrays.asList("Actually", "Aircraft", "Backbone", "Blooming", "Brightly", "Building", "Camellia", "Cardinal", "Careless", "Chemical", "Cheerful",
                 "Civilian", "Daughter", "Demolish", "Detector", "Disaster", "Disposal", "Electron", "Elective", "Engaging", "Enormous", "Erection", "Evidence", "Exertion",
@@ -119,7 +119,12 @@ public class NamesManager {
     }
 
     public enum NicknamePattern {
-        NameWithNumbers, TwoShortsWithConjunction, JapaneseNameWithBirth, LongWithNumbers, ShortWithConjunction, ShortAndLong
+        ShortAndLong,
+        NameWithNumbers,
+        LongWithNumbers,
+        ShortWithConjunction,
+        JapaneseNameWithBirth,
+        TwoShortsWithConjunction
     }
 
 }
