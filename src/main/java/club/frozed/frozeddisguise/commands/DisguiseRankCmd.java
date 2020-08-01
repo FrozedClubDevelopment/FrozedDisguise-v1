@@ -12,8 +12,6 @@ import xyz.haoshoku.nick.NickPlugin;
 
 public class DisguiseRankCmd implements CommandExecutor, Listener {
 
-    boolean allowDrWithourDisguise = FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.ALLOW-DISGUISE-RANK-WITHOUT-BEING-DISGUISED");
-
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (!sender.hasPermission("frozed.disguise.ranks")) {
@@ -26,7 +24,7 @@ public class DisguiseRankCmd implements CommandExecutor, Listener {
         }
 
         Player player = (Player) sender;
-        if (allowDrWithourDisguise) {
+        if (FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.ALLOW-DISGUISE-RANK-WITHOUT-BEING-DISGUISED")) {
             new RanksMenu().openMenu(player);
         } else if (NickPlugin.getPlugin().getAPI().isNicked(player)) {
             new RanksMenu().openMenu(player);
