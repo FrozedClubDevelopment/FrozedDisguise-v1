@@ -73,7 +73,7 @@ public class RanksMenu extends Menu {
                 playSuccess(player);
                 PlayerManager.setRank(player, FrozedDisguise.getRankManager().getRankName(rank.getName()));
                 if (FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.TABLIST_NAME_COLOR")) {
-                    player.setPlayerListName(Messages.CC(rank.getNameColor()) + player.getName());
+                    player.setPlayerListName(Messages.CC(rank.getNameColor() + player.getName()));
                 }
                 player.sendMessage(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.DISGUISE-RANK-SELECTED"))
                         .replaceAll("<rankName>", rank.getName())
@@ -102,6 +102,7 @@ public class RanksMenu extends Menu {
 
         @Override
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
+            playFail(player);
             PlayerManager.rankData.remove(player);
             if (FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.TABLIST_NAME_COLOR")) {
                 player.setPlayerListName(player.getDisplayName());
