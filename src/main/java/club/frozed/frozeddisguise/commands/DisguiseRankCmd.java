@@ -8,10 +8,11 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import xyz.haoshoku.nick.NickPlugin;
 
 public class DisguiseRankCmd implements CommandExecutor, Listener {
 
-    boolean allowDisguiseRankWithoutBeingDisguised = FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.ALLOW-DISGUISE-RANK-WITHOUT-BEING-DISGUISED");
+    boolean allowDrWithourDisguise = FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.ALLOW-DISGUISE-RANK-WITHOUT-BEING-DISGUISED");
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -25,7 +26,9 @@ public class DisguiseRankCmd implements CommandExecutor, Listener {
         }
 
         Player player = (Player) sender;
-        if (allowDisguiseRankWithoutBeingDisguised) {
+        if (allowDrWithourDisguise) {
+            new RanksMenu().openMenu(player);
+        } else if (NickPlugin.getPlugin().getAPI().isNicked(player)) {
             new RanksMenu().openMenu(player);
         } else {
             player.sendMessage(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.DISGUISE-REQUIRED-FOR-RANK")));
