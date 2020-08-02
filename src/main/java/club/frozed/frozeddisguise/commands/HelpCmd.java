@@ -32,6 +32,7 @@ public class HelpCmd implements CommandExecutor {
         player.sendMessage(Messages.CC("&7 * &f/undisguise"));
         player.sendMessage(Messages.CC("&7 * &f/disguiserank"));
         player.sendMessage(Messages.CC("&7 * &f/disguiselist"));
+        player.sendMessage(Messages.CC("&7 * &f/undisguiserank"));
         player.sendMessage(Messages.CC("&7 * &f/checkuuid &b<player>"));
         player.sendMessage(Messages.CC("&8&m--------------------------------------------------"));
 

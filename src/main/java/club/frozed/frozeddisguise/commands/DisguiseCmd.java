@@ -126,6 +126,7 @@ public class DisguiseCmd implements CommandExecutor, Listener {
     public void setPlayerDisguise(Player player, String disguiseName, String disguiseSkin) {
         boolean sendDisguiseMsg = FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.SHOW-DISGUISED-MSG");
         boolean sendStaffAlert = FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.SEND-DISGUISE-ALERT");
+        boolean toggleActionBar = FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.ENABLE-ACTION-BAR");
 
         NickPlugin.getPlugin().getAPI().nick(player, disguiseName);
         NickPlugin.getPlugin().getAPI().setGameProfileName(player, disguiseName);
@@ -156,8 +157,11 @@ public class DisguiseCmd implements CommandExecutor, Listener {
         }
 
         if (NickPlugin.getPlugin().getAPI().isCurrentlyRefreshing(player)) {
-            if (FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.SHOW-ACTION-BAR")) {
-                FrozedDisguise.getInstance().getActionbar().sendActionbar(player, Messages.CC("&b&lYOU ARE NOW DISGUISED AS&7: &f" + NickPlugin.getPlugin().getAPI().getNickedName(player)));
+            if (toggleActionBar) {
+                FrozedDisguise.getInstance().getActionbar().sendActionbar(
+                        player, Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.DISGUISE-ACTION-BAR"))
+                                .replaceAll("<disguise_name>", NickPlugin.getPlugin().getAPI().getNickedName(player))
+                );
             }
         }
 

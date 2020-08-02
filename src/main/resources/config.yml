@@ -1,9 +1,9 @@
 BOOLEANS:
   ENABLE-SKINS-MENU: true
+  ENABLE-ACTION-BAR: true
   SHOW-DISGUISED-MSG: true
   SEND-DISGUISE-ALERT: true
   ALLOW-DISGUISE-RANK-WITHOUT-BEING-DISGUISED: false
-  SHOW-ACTION-BAR: true
 
   CHAT-FORMAT: true
   FORMAT-WITH-RANK: "<rank><player>&7: &f<msg>"
@@ -23,6 +23,8 @@ MESSAGES:
     - "&4&lIf &ca player with the name you've chosen"
     - "&cto disguise as connects, you'll be kicked."
     - "&8&m--------------------------------------------------"
+
+  DISGUISE-ACTION-BAR: "&b&lYOU ARE NOW DISGUISED AS &f&o<disguise_name>&b!"
 
   DISGUISE-ALERT: "&8[&b&l!&8] &f<player> &7has disguised as &f<disguise_name>"
   DISGUISE-ALERT-WITH-SKIN: "&8[&b&l!&8] &f<player> &7has disguised as &f<disguise_name> &7with the skin of &f<disguise_skin>"
