@@ -1,5 +1,7 @@
 package club.frozed.frozeddisguise;
 
+import club.frozed.frozeddisguise.actionbar.ActionBar;
+import club.frozed.frozeddisguise.actionbar.versions.*;
 import club.frozed.frozeddisguise.commands.*;
 import club.frozed.frozeddisguise.listeners.PlayerListener;
 import club.frozed.frozeddisguise.managers.NamesManager;
@@ -31,6 +33,8 @@ public class FrozedDisguise extends JavaPlugin {
     public static File rank;
     public static FileConfiguration rankConfig;
 
+    private ActionBar actionBar;
+
     public void onEnable() {
         instance = this;
 
@@ -49,6 +53,7 @@ public class FrozedDisguise extends JavaPlugin {
         this.registerListeners();
         this.registerManagers();
         this.registerCommands();
+        this.registerActionBar();
         this.getServer().getConsoleSender().sendMessage(Messages.CC("&7-------------------------------------------"));
     }
 
@@ -93,6 +98,43 @@ public class FrozedDisguise extends JavaPlugin {
         this.getServer().getConsoleSender().sendMessage(Messages.CC("&8 [&b*&8] &3Commands Registered Successfully"));
     }
 
+    private boolean registerActionBar() {
+        String version;
+
+        try {
+            version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
+        } catch (ArrayIndexOutOfBoundsException whatVersionAreYouUsingException) {
+            return false;
+        }
+
+        getLogger().info("[Additional-Info] Your server is running version " + version);
+
+        switch (version) {
+            case "v1_8_R3":
+                actionBar = new v1_8_R3();
+                break;
+            case "v1_9_R1":
+                actionBar = new v1_9_R1();
+                break;
+            case "v1_9_R2":
+                actionBar = new v1_9_R2();
+                break;
+            case "v1_10_R1":
+                actionBar = new v1_10_R1();
+                break;
+            case "v1_11_R1":
+                actionBar = new v1_11_R1();
+                break;
+            case "v1_12_R1":
+                actionBar = new v1_12_R1();
+                break;
+        }
+
+        this.getServer().getConsoleSender().sendMessage(Messages.CC("&8 [&b*&8] &3ActionBar Registered Successfully"));
+
+        return actionBar != null;
+    }
+
     public static FrozedDisguise getInstance() {
         return instance;
     }
@@ -107,6 +149,10 @@ public class FrozedDisguise extends JavaPlugin {
 
     public static RanksManager getRankManager() {
         return ranksManager;
+    }
+
+    public ActionBar getActionbar() {
+        return actionBar;
     }
 
     @Override
