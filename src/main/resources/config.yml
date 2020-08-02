@@ -1,13 +1,16 @@
 BOOLEANS:
   ENABLE-SKINS-MENU: true
-  TABLIST_NAME_COLOR: true
   SHOW-DISGUISED-MSG: true
   SEND-DISGUISE-ALERT: true
   ALLOW-DISGUISE-RANK-WITHOUT-BEING-DISGUISED: false
+  SHOW-ACTION-BAR: true
 
   CHAT-FORMAT: true
   FORMAT-WITH-RANK: "<rank><player>&7: &f<msg>"
   FORMAT-WITHOUT-RANK: "&b<player>&7: &f<msg>"
+
+  TABLIST-NAME-COLOR: true
+  DEFAULT-TABLIST-NAME-COLOR: "&b" # This is for Disguised players
 
 MESSAGES:
   DISGUISE-MESSAGE:
