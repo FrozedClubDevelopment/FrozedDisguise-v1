@@ -8,7 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class UndisguiseRankCmd implements CommandExecutor {
+public class UnDisguiseRankCmd implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -24,7 +24,7 @@ public class UndisguiseRankCmd implements CommandExecutor {
         Player player = (Player) sender;
         if (PlayerManager.rankData.containsKey(player)) {
             PlayerManager.rankData.remove(player);
-            if (FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.TABLIST_NAME_COLOR")) {
+            if (FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.TABLIST-NAME-COLOR")) {
                 player.setPlayerListName(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("BOOLEANS.DEFAULT-TABLIST-NAME-COLOR")) + player.getName());
             }
             player.sendMessage(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.DISGUISE-RANK-SUCCESSFULLY-REMOVED")));
