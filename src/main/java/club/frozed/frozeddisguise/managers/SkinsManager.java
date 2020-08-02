@@ -28,7 +28,7 @@ public class SkinsManager {
         data = new HashMap<>();
         skins = Arrays.asList("_rsu:Killer", "E_Girl:E-girl", "MHF_Sheep:Sheep Man", "BackupDancer:L", "Arro:Arabian", "bennyknight:Badman", "MHF_Herobrine:Herobrine",
                 "MHF_Villager:Villager", "CocoDeMedellin:Black Goku", "SheAGoldDigger:Blue Goku", "MHF_Enderman:Enderman", "Marcel:Marcel", "Zwergoor:Emoji", "HikakinGames:Youtuber",
-                "loudoggydog3010:XXX", "Reinstallation:Rambo Chicken", "SolluxCaptor:Nezuko", "Elb1to:Elb1to");
+                "loudoggydog3010:Juice Wrld", "Reinstallation:Rambo Chicken", "SolluxCaptor:Nezuko", "Elb1to:Elb1to");
 
         menu = Bukkit.createInventory(null, 18, Messages.CC("&8Select an Skin"));
         for (String skin : skins) {
