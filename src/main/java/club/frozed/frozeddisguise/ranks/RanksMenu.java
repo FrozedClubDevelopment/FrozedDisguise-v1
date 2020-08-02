@@ -73,7 +73,7 @@ public class RanksMenu extends Menu {
             if (player.hasPermission("frozed.disguise.ranks." + rank.getName()) || player.hasPermission("frozed.disguise.ranks.*")) {
                 playSuccess(player);
                 PlayerManager.setRank(player, FrozedDisguise.getRankManager().getRankName(rank.getName()));
-                if (FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.TABLIST_NAME_COLOR")) {
+                if (FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.TABLIST-NAME-COLOR")) {
                     player.setPlayerListName(Messages.CC(rank.getNameColor() + player.getName()));
                 }
                 player.sendMessage(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.DISGUISE-RANK-SELECTED"))
@@ -96,6 +96,7 @@ public class RanksMenu extends Menu {
     }
 
     private static class ResetRankButton extends Button {
+
         @Override
         public ItemStack getButtonItem(Player player) {
             return new ItemBuilder(Material.REDSTONE).name("&cRemove Rank").lore(" ", "&7Click here to remove your rank.").build();
@@ -105,8 +106,8 @@ public class RanksMenu extends Menu {
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
             playFail(player);
             PlayerManager.rankData.remove(player);
-            if (FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.TABLIST_NAME_COLOR")) {
-                player.setPlayerListName(null);
+            if (FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.TABLIST-NAME-COLOR")) {
+                player.setPlayerListName(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("BOOLEANS.DEFAULT-TABLIST-NAME-COLOR")) + player.getName());
             }
             player.closeInventory();
             player.sendMessage(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.DISGUISE-RANK-SUCCESSFULLY-REMOVED")));
