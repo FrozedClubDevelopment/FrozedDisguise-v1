@@ -1,6 +1,7 @@
 package club.frozed.frozeddisguise.commands;
 
 import club.frozed.frozeddisguise.FrozedDisguise;
+import club.frozed.frozeddisguise.managers.PlayerManager;
 import club.frozed.frozeddisguise.utils.Messages;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -26,6 +27,7 @@ public class UnDisguiseCmd implements CommandExecutor {
                 NickPlugin.getPlugin().getAPI().unnick(player);
                 NickPlugin.getPlugin().getAPI().resetGameProfileName(player);
                 NickPlugin.getPlugin().getAPI().refreshPlayer(player);
+                PlayerManager.rankData.remove(player);
                 sender.sendMessage(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.SUCCESSFULLY-UNDISGUISED")));
             } else {
                 sender.sendMessage(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.NOT-DISGUISED")));
