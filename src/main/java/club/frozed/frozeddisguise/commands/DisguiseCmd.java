@@ -2,6 +2,7 @@ package club.frozed.frozeddisguise.commands;
 
 import club.frozed.frozeddisguise.FrozedDisguise;
 import club.frozed.frozeddisguise.managers.NamesManager;
+import club.frozed.frozeddisguise.managers.PlayerManager;
 import club.frozed.frozeddisguise.managers.SkinsManager;
 import club.frozed.frozeddisguise.utils.Messages;
 import org.bukkit.command.Command;
@@ -25,8 +26,6 @@ public class DisguiseCmd implements CommandExecutor, Listener {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
         boolean toggleSkinsMenu = FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.ENABLE-SKINS-MENU");
-        boolean sendDisguiseMsg = FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.SHOW-DISGUISED-MSG");
-        boolean sendStaffAlert = FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.SEND-DISGUISE-ALERT");
 
         if (!(sender instanceof Player)) {
             return true;
@@ -51,30 +50,7 @@ public class DisguiseCmd implements CommandExecutor, Listener {
                     disguiseName = NamesManager.generate();
                 }
 
-                player.setDisplayName(disguiseName);
-                NickPlugin.getPlugin().getAPI().nick(player, disguiseName);
-                NickPlugin.getPlugin().getAPI().setGameProfileName(player, disguiseName);
-
-                NickPlugin.getPlugin().getAPI().setSkin(player, disguiseSkin);
-                NickPlugin.getPlugin().getAPI().refreshPlayer(player);
-
-                if (sendDisguiseMsg) {
-                    for (String message : FrozedDisguise.getInstance().getConfig().getStringList("MESSAGES.DISGUISE-MESSAGE")) {
-                        Messages.sendMessageToPlayer(message.replaceAll("<disguise_name>", disguiseName).replaceAll("<disguise_skin>", disguiseSkin), player);
-                    }
-                }
-
-                for (Player p : FrozedDisguise.getInstance().getServer().getOnlinePlayers()) {
-                    if (p.hasPermission("frozed.disguise.alerts")) {
-                        if (sendStaffAlert) {
-                            p.sendMessage(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.DISGUISE-ALERT-WITH-SKIN"))
-                                    .replaceAll("<player>", NickPlugin.getPlugin().getAPI().getOriginalGameProfileName(player))
-                                    .replaceAll("<disguise_name>", disguiseName)
-                                    .replaceAll("<disguise_skin>", disguiseSkin)
-                            );
-                        }
-                    }
-                }
+                setPlayerDisguise(player, disguiseName, disguiseSkin);
             }
         }
 
@@ -92,37 +68,12 @@ public class DisguiseCmd implements CommandExecutor, Listener {
                 return true;
             }
 
-            //nickData.put(player, args[0]);
-
             if (toggleSkinsMenu) {
                 player.openInventory(SkinsManager.menu);
             } else {
                 String disguiseSkin = SkinsManager.generate().split(":")[0];
 
-                player.setDisplayName(args[0]);
-                NickPlugin.getPlugin().getAPI().nick(player, args[0]);
-                NickPlugin.getPlugin().getAPI().setGameProfileName(player, args[0]);
-
-                NickPlugin.getPlugin().getAPI().setSkin(player, disguiseSkin);
-                NickPlugin.getPlugin().getAPI().refreshPlayer(player);
-
-                if (sendDisguiseMsg) {
-                    for (String message : FrozedDisguise.getInstance().getConfig().getStringList("MESSAGES.DISGUISE-MESSAGE")) {
-                        Messages.sendMessageToPlayer(message.replaceAll("<disguise_name>", args[0]).replaceAll("<disguise_skin>", disguiseSkin), player);
-                    }
-                }
-
-                for (Player p : FrozedDisguise.getInstance().getServer().getOnlinePlayers()) {
-                    if (p.hasPermission("frozed.disguise.alerts")) {
-                        if (sendStaffAlert) {
-                            p.sendMessage(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.DISGUISE-ALERT-WITH-SKIN"))
-                                    .replaceAll("<player>", NickPlugin.getPlugin().getAPI().getOriginalGameProfileName(player))
-                                    .replaceAll("<disguise_name>", args[0])
-                                    .replaceAll("<disguise_skin>", disguiseSkin)
-                            );
-                        }
-                    }
-                }
+                setPlayerDisguise(player, args[0], disguiseSkin);
             }
         }
 
@@ -140,32 +91,7 @@ public class DisguiseCmd implements CommandExecutor, Listener {
                 return true;
             }
 
-            //nickData.put(player, args[0]);
-
-            player.setDisplayName(args[0]);
-            NickPlugin.getPlugin().getAPI().nick(player, args[0]);
-            NickPlugin.getPlugin().getAPI().setGameProfileName(player, args[0]);
-
-            NickPlugin.getPlugin().getAPI().setSkin(player, args[1]);
-            NickPlugin.getPlugin().getAPI().refreshPlayer(player);
-
-            if (sendDisguiseMsg) {
-                for (String message : FrozedDisguise.getInstance().getConfig().getStringList("MESSAGES.DISGUISE-MESSAGE")) {
-                    Messages.sendMessageToPlayer(message.replaceAll("<disguise_name>", String.valueOf(args[0])).replaceAll("<disguise_skin>", String.valueOf(args[1])), player);
-                }
-            }
-
-            for (Player p : FrozedDisguise.getInstance().getServer().getOnlinePlayers()) {
-                if (p.hasPermission("frozed.disguise.alerts")) {
-                    if (sendStaffAlert) {
-                        p.sendMessage(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.DISGUISE-ALERT-WITH-SKIN"))
-                                .replaceAll("<player>", NickPlugin.getPlugin().getAPI().getOriginalGameProfileName(player))
-                                .replaceAll("<disguise_name>", String.valueOf(args[0]))
-                                .replaceAll("<disguise_skin>", String.valueOf(args[1]))
-                        );
-                    }
-                }
-            }
+            setPlayerDisguise(player, args[0], args[1]);
         }
 
         return true;
@@ -173,10 +99,6 @@ public class DisguiseCmd implements CommandExecutor, Listener {
 
     @EventHandler
     public void onClick(InventoryClickEvent event) {
-
-        boolean sendDisguiseMsg = FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.SHOW-DISGUISED-MSG");
-        boolean sendStaffAlert = FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.SEND-DISGUISE-ALERT");
-
         if (event.getInventory().getTitle().equalsIgnoreCase(Messages.CC("&8Select an Skin"))) {
             event.setCancelled(true);
 
@@ -185,9 +107,7 @@ public class DisguiseCmd implements CommandExecutor, Listener {
             }
 
             Player player = (Player) event.getWhoClicked();
-            String before = player.getName();
-            String name = SkinsManager.data.get(event.getCurrentItem().getItemMeta().getDisplayName()).split(":")[0];
-            String display = SkinsManager.data.get(event.getCurrentItem().getItemMeta().getDisplayName()).split(":")[1];
+            String skin = SkinsManager.data.get(event.getCurrentItem().getItemMeta().getDisplayName()).split(":")[0];
 
             String nick;
             if (nickData.get(player) != null) {
@@ -196,39 +116,51 @@ public class DisguiseCmd implements CommandExecutor, Listener {
                 nick = NamesManager.generate();
             }
 
-            player.setDisplayName(nick);
-            NickPlugin.getPlugin().getAPI().nick(player, nick);
-            NickPlugin.getPlugin().getAPI().setGameProfileName(player, nick);
-
-            NickPlugin.getPlugin().getAPI().setSkin(player, name);
-            NickPlugin.getPlugin().getAPI().refreshPlayer(player);
+            setPlayerDisguise(player, nick, skin);
 
             player.getOpenInventory().close();
-
-            if (sendDisguiseMsg) {
-                for (String message : FrozedDisguise.getInstance().getConfig().getStringList("MESSAGES.DISGUISE-MESSAGE")) {
-                    Messages.sendMessageToPlayer(message.replaceAll("<disguise_name>", String.valueOf(nick)).replaceAll("<disguise_skin>", String.valueOf(display)), player);
-                }
-            }
-
-            for (Player p : FrozedDisguise.getInstance().getServer().getOnlinePlayers()) {
-                if (p.hasPermission("frozed.disguise.alerts")) {
-                    if (sendStaffAlert) {
-                        p.sendMessage(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.DISGUISE-ALERT"))
-                                .replaceAll("<player>", before)
-                                .replaceAll("<disguise_name>", nick)
-                        );
-                    }
-                }
-            }
-
-            BukkitRunnable fix = new BukkitRunnable() {
-                public void run() {
-                    NickPlugin.getPlugin().getAPI().refreshPlayer(player);
-                }
-            };
-            fix.runTaskLater(FrozedDisguise.getInstance(), 20L);
         }
+
+    }
+
+    public void setPlayerDisguise(Player player, String disguiseName, String disguiseSkin) {
+        boolean sendDisguiseMsg = FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.SHOW-DISGUISED-MSG");
+        boolean sendStaffAlert = FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.SEND-DISGUISE-ALERT");
+
+        NickPlugin.getPlugin().getAPI().nick(player, disguiseName);
+        NickPlugin.getPlugin().getAPI().setGameProfileName(player, disguiseName);
+
+        NickPlugin.getPlugin().getAPI().setSkin(player, disguiseSkin);
+        NickPlugin.getPlugin().getAPI().refreshPlayer(player);
+
+        PlayerManager.rankData.remove(player);
+
+        updatePlayerListNameColor(player);
+
+        if (sendDisguiseMsg) {
+            for (String message : FrozedDisguise.getInstance().getConfig().getStringList("MESSAGES.DISGUISE-MESSAGE")) {
+                Messages.sendMessageToPlayer(message.replaceAll("<disguise_name>", disguiseName).replaceAll("<disguise_skin>", disguiseSkin), player);
+            }
+        }
+
+        for (Player p : FrozedDisguise.getInstance().getServer().getOnlinePlayers()) {
+            if (p.hasPermission("frozed.disguise.alerts")) {
+                if (sendStaffAlert) {
+                    p.sendMessage(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.DISGUISE-ALERT-WITH-SKIN"))
+                            .replaceAll("<player>", NickPlugin.getPlugin().getAPI().getOriginalGameProfileName(player))
+                            .replaceAll("<disguise_name>", disguiseName)
+                            .replaceAll("<disguise_skin>", disguiseSkin)
+                    );
+                }
+            }
+        }
+
+        if (NickPlugin.getPlugin().getAPI().isCurrentlyRefreshing(player)) {
+            if (FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.SHOW-ACTION-BAR")) {
+                FrozedDisguise.getInstance().getActionbar().sendActionbar(player, Messages.CC("&b&lYOU ARE NOW DISGUISED AS&7: &f" + NickPlugin.getPlugin().getAPI().getNickedName(player)));
+            }
+        }
+
     }
 
     @EventHandler
@@ -243,6 +175,21 @@ public class DisguiseCmd implements CommandExecutor, Listener {
                 bukkitRunnable.runTaskLater(FrozedDisguise.getInstance(), 3L);
             }
         }
+        
+    }
+
+    public void updatePlayerListNameColor(Player player) {
+        if (FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.TABLIST-NAME-COLOR")) {
+            BukkitRunnable fixPlayerListNameColor = new BukkitRunnable() {
+                public void run() {
+                    //if (!PlayerManager.rankData.containsKey(player)) {
+                    player.setPlayerListName(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("BOOLEANS.DEFAULT-TABLIST-NAME-COLOR")) + player.getName());
+                    //}
+                }
+            };
+            fixPlayerListNameColor.runTaskLater(FrozedDisguise.getInstance(), 25L);
+        }
+
     }
 
     private boolean isNameUsed(String[] args, Player player) {
@@ -252,6 +199,7 @@ public class DisguiseCmd implements CommandExecutor, Listener {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -262,6 +210,8 @@ public class DisguiseCmd implements CommandExecutor, Listener {
             player.sendMessage(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.DISGUISE-NAME-FILTERED")));
             return true;
         }
+
         return false;
     }
+
 }
