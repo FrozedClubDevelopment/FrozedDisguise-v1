@@ -175,7 +175,7 @@ public class DisguiseCmd implements CommandExecutor, Listener {
                 bukkitRunnable.runTaskLater(FrozedDisguise.getInstance(), 3L);
             }
         }
-        
+
     }
 
     public void updatePlayerListNameColor(Player player) {
