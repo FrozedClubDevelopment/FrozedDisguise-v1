@@ -28,6 +28,15 @@ public class UnDisguiseCmd implements CommandExecutor {
                 NickPlugin.getPlugin().getAPI().resetGameProfileName(player);
                 NickPlugin.getPlugin().getAPI().refreshPlayer(player);
                 PlayerManager.rankData.remove(player);
+
+                player.setDisplayName(player.getName());
+                player.setPlayerListName(player.getName());
+
+                if (FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.HEALTH-MODIFIER")) {
+                    if (FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.RESET-HEALTH-AFTER-UNDISGUISING")) {
+                        player.setMaxHealth(20.0F);
+                    }
+                }
                 sender.sendMessage(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.SUCCESSFULLY-UNDISGUISED")));
             } else {
                 sender.sendMessage(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.NOT-DISGUISED")));

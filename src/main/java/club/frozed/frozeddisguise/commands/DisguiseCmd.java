@@ -4,6 +4,7 @@ import club.frozed.frozeddisguise.FrozedDisguise;
 import club.frozed.frozeddisguise.managers.NamesManager;
 import club.frozed.frozeddisguise.managers.PlayerManager;
 import club.frozed.frozeddisguise.managers.SkinsManager;
+import club.frozed.frozeddisguise.ranks.Ranks;
 import club.frozed.frozeddisguise.utils.Messages;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -22,6 +23,8 @@ import java.util.List;
 public class DisguiseCmd implements CommandExecutor, Listener {
 
     public static HashMap<Player, String> nickData = new HashMap<>();
+
+    private Ranks rank;
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
@@ -115,12 +118,10 @@ public class DisguiseCmd implements CommandExecutor, Listener {
             } else {
                 nick = NamesManager.generate();
             }
-
             setPlayerDisguise(player, nick, skin);
 
             player.getOpenInventory().close();
         }
-
     }
 
     public void setPlayerDisguise(Player player, String disguiseName, String disguiseSkin) {
@@ -136,7 +137,10 @@ public class DisguiseCmd implements CommandExecutor, Listener {
 
         PlayerManager.rankData.remove(player);
 
+        isHealthModifier(player);
         updatePlayerListNameColor(player);
+
+        player.setDisplayName(player.getName());
 
         if (sendDisguiseMsg) {
             for (String message : FrozedDisguise.getInstance().getConfig().getStringList("MESSAGES.DISGUISE-MESSAGE")) {
@@ -145,26 +149,20 @@ public class DisguiseCmd implements CommandExecutor, Listener {
         }
 
         for (Player p : FrozedDisguise.getInstance().getServer().getOnlinePlayers()) {
-            if (p.hasPermission("frozed.disguise.alerts")) {
-                if (sendStaffAlert) {
-                    p.sendMessage(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.DISGUISE-ALERT-WITH-SKIN"))
-                            .replaceAll("<player>", NickPlugin.getPlugin().getAPI().getOriginalGameProfileName(player))
-                            .replaceAll("<disguise_name>", disguiseName)
-                            .replaceAll("<disguise_skin>", disguiseSkin)
-                    );
-                }
-            }
-        }
-
-        if (NickPlugin.getPlugin().getAPI().isCurrentlyRefreshing(player)) {
-            if (toggleActionBar) {
-                FrozedDisguise.getInstance().getActionbar().sendActionbar(
-                        player, Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.DISGUISE-ACTION-BAR"))
-                                .replaceAll("<disguise_name>", NickPlugin.getPlugin().getAPI().getNickedName(player))
+            if (p.hasPermission("frozed.disguise.alerts") && sendStaffAlert) {
+                p.sendMessage(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.DISGUISE-ALERT-WITH-SKIN"))
+                        .replaceAll("<player>", NickPlugin.getPlugin().getAPI().getOriginalGameProfileName(player))
+                        .replaceAll("<disguise_name>", disguiseName)
+                        .replaceAll("<disguise_skin>", disguiseSkin)
                 );
             }
         }
 
+        if (NickPlugin.getPlugin().getAPI().isCurrentlyRefreshing(player) && toggleActionBar) {
+            FrozedDisguise.getInstance().getActionbar().sendActionbar(
+                    player, Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.DISGUISE-ACTION-BAR")).replaceAll("<disguise_name>", NickPlugin.getPlugin().getAPI().getNickedName(player))
+            );
+        }
     }
 
     @EventHandler
@@ -179,21 +177,31 @@ public class DisguiseCmd implements CommandExecutor, Listener {
                 bukkitRunnable.runTaskLater(FrozedDisguise.getInstance(), 3L);
             }
         }
-
     }
 
     public void updatePlayerListNameColor(Player player) {
         if (FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.TABLIST-NAME-COLOR")) {
             BukkitRunnable fixPlayerListNameColor = new BukkitRunnable() {
                 public void run() {
-                    //if (!PlayerManager.rankData.containsKey(player)) {
                     player.setPlayerListName(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("BOOLEANS.DEFAULT-TABLIST-NAME-COLOR")) + player.getName());
-                    //}
                 }
             };
             fixPlayerListNameColor.runTaskLater(FrozedDisguise.getInstance(), 25L);
         }
+    }
 
+    private void isHealthModifier(Player player) {
+        if (FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.HEALTH-MODIFIER")) {
+            if (NickPlugin.getPlugin().getAPI().isNicked(player)) {
+                BukkitRunnable updateHealth = new BukkitRunnable() {
+                    public void run() {
+                        player.setMaxHealth((double) FrozedDisguise.getInstance().getConfig().getInt("BOOLEANS.HEALTH-MODIFIER-AMOUNT"));
+                        player.setHealth((double) FrozedDisguise.getInstance().getConfig().getInt("BOOLEANS.HEALTH-MODIFIER-AMOUNT"));
+                    }
+                };
+                updateHealth.runTaskLater(FrozedDisguise.getInstance(), 10L);
+            }
+        }
     }
 
     private boolean isNameUsed(String[] args, Player player) {

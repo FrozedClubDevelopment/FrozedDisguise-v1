@@ -5,13 +5,31 @@ BOOLEANS:
   SEND-DISGUISE-ALERT: true
   ALLOW-DISGUISE-RANK-WITHOUT-BEING-DISGUISED: false
 
+  # Health Modifier
+  # 20 == 10 Hearts
+  # 40 == 20 Hearts
+  # And so on...
+  HEALTH-MODIFIER: false
+  HEALTH-MODIFIER-AMOUNT: 40
+  RESET-HEALTH-AFTER-UNDISGUISING: true
+
   CHAT-FORMAT: true
   FORMAT-WITH-RANK: "<rank><player>&7: &f<msg>"
   FORMAT-WITHOUT-RANK: "&b<player>&7: &f<msg>"
 
-  TABLIST-NAME-COLOR: true
-  DEFAULT-TABLIST-NAME-COLOR: "&b" # This is for Disguised players
+  # If you're going to use NametagEdit, make sure
+  # to disable TABLIST-NAME-COLOR, otherwise
+  # it could cause some visual bugs.
+  TABLIST-NAME-COLOR: false
+  NAMETAG-EDIT-SUPPORT: true
 
+  # This is for disguised players
+  DEFAULT-TABLIST-NAME-COLOR: "&b"
+
+  # PlaceholderAPI Placeholders
+  # Get the player disguise name -> %frozed-disguise_player_name%
+  # Get the player disguise rank name -> %frozed-disguise_rank_name%
+  # Get the player disguise rank prefix -> %frozed-disguise_rank_prefix%
 MESSAGES:
   DISGUISE-MESSAGE:
     - "&8&m--------------------------------------------------"

@@ -6,6 +6,7 @@ import club.frozed.frozeddisguise.utils.ItemBuilder;
 import club.frozed.frozeddisguise.utils.Messages;
 import club.frozed.frozeddisguise.utils.menu.Button;
 import club.frozed.frozeddisguise.utils.menu.Menu;
+import com.nametagedit.plugin.NametagEdit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -71,10 +72,13 @@ public class RanksMenu extends Menu {
         @Override
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
             if (player.hasPermission("frozed.disguise.ranks." + rank.getName()) || player.hasPermission("frozed.disguise.ranks.*")) {
-                playSuccess(player);
                 PlayerManager.setRank(player, FrozedDisguise.getRankManager().getRankName(rank.getName()));
+                player.setDisplayName(Messages.CC(rank.getPrefix() + player.getName()));
                 if (FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.TABLIST-NAME-COLOR")) {
                     player.setPlayerListName(Messages.CC(rank.getNameColor() + player.getName()));
+                }
+                if (FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.NAMETAG-EDIT-SUPPORT")) {
+                    NametagEdit.getApi().setPrefix(player, rank.getPrefix());
                 }
                 player.sendMessage(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.DISGUISE-RANK-SELECTED"))
                         .replaceAll("<rankName>", rank.getName())
@@ -104,11 +108,11 @@ public class RanksMenu extends Menu {
 
         @Override
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-            playFail(player);
             PlayerManager.rankData.remove(player);
             if (FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.TABLIST-NAME-COLOR")) {
                 player.setPlayerListName(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("BOOLEANS.DEFAULT-TABLIST-NAME-COLOR")) + player.getName());
             }
+            player.setDisplayName(player.getName());
             player.closeInventory();
             player.sendMessage(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.DISGUISE-RANK-SUCCESSFULLY-REMOVED")));
         }

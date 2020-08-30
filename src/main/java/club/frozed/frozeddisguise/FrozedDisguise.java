@@ -3,6 +3,7 @@ package club.frozed.frozeddisguise;
 import club.frozed.frozeddisguise.actionbar.ActionBar;
 import club.frozed.frozeddisguise.actionbar.versions.*;
 import club.frozed.frozeddisguise.commands.*;
+import club.frozed.frozeddisguise.hook.HookPlaceholderAPI;
 import club.frozed.frozeddisguise.listeners.PlayerListener;
 import club.frozed.frozeddisguise.managers.NamesManager;
 import club.frozed.frozeddisguise.managers.PlayerManager;
@@ -54,6 +55,12 @@ public class FrozedDisguise extends JavaPlugin {
         this.registerManagers();
         this.registerCommands();
         this.registerActionBar();
+
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            new HookPlaceholderAPI(this).register();
+            Bukkit.getConsoleSender().sendMessage(Messages.CC("&aPlaceholder API expansion successfully registered."));
+        }
+
         this.getServer().getConsoleSender().sendMessage(Messages.CC("&7-------------------------------------------"));
     }
 

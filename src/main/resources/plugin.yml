@@ -1,5 +1,5 @@
 name: FrozedDisguise
-version: 1.8
+version: 2.2
 main: club.frozed.frozeddisguise.FrozedDisguise
 authors:
   - Elb1to
@@ -7,6 +7,7 @@ authors:
 depend:
   - ProtocolLib
   - NickAPI
+softdepend: [PlaceholderAPI]
 commands:
   disguise:
     aliases: [dis, d]
