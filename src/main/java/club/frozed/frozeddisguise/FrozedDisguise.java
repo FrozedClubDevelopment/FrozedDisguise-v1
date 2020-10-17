@@ -135,8 +135,11 @@ public class FrozedDisguise extends JavaPlugin {
             case "v1_12_R1":
                 actionBar = new v1_12_R1();
                 break;
+            default:
+                getLogger().info("ActionBar NMS won't be enabled.");
+                getLogger().info("Currently supported versions: 1.8, 1.9, 1.10, 1.11, 1.12");
         }
-
+        
         this.getServer().getConsoleSender().sendMessage(Messages.CC("&8 [&b*&8] &3ActionBar Registered Successfully"));
 
         return actionBar != null;
@@ -166,5 +169,4 @@ public class FrozedDisguise extends JavaPlugin {
     public FileConfiguration getConfig() {
         return YamlConfiguration.loadConfiguration(new File(this.getDataFolder(), "config.yml"));
     }
-
 }

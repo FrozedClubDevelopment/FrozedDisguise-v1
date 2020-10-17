@@ -21,7 +21,6 @@ public class HelpCmd implements CommandExecutor {
         }
 
         Player player = (Player) sender;
-
         player.sendMessage(Messages.CC("&8&m--------------------------------------------------"));
         player.sendMessage(Messages.CC("&b&lFrozedDisguise &7- &fCommands Help"));
         player.sendMessage(Messages.CC(""));

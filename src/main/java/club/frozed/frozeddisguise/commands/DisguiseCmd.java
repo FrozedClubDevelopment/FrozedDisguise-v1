@@ -1,11 +1,15 @@
 package club.frozed.frozeddisguise.commands;
 
 import club.frozed.frozeddisguise.FrozedDisguise;
+import club.frozed.frozeddisguise.hook.HookPlaceholderAPI;
 import club.frozed.frozeddisguise.managers.NamesManager;
 import club.frozed.frozeddisguise.managers.PlayerManager;
 import club.frozed.frozeddisguise.managers.SkinsManager;
 import club.frozed.frozeddisguise.ranks.Ranks;
 import club.frozed.frozeddisguise.utils.Messages;
+import com.nametagedit.plugin.NametagEdit;
+import com.nametagedit.plugin.api.NametagAPI;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -73,9 +77,10 @@ public class DisguiseCmd implements CommandExecutor, Listener {
 
             if (toggleSkinsMenu) {
                 player.openInventory(SkinsManager.menu);
+                nickData.put(player, args[0]);
+                //setPlayerDisguise(player, args[0], disguiseSkin);
             } else {
                 String disguiseSkin = SkinsManager.generate().split(":")[0];
-
                 setPlayerDisguise(player, args[0], disguiseSkin);
             }
         }
@@ -142,6 +147,11 @@ public class DisguiseCmd implements CommandExecutor, Listener {
 
         player.setDisplayName(player.getName());
 
+        if (Bukkit.getPluginManager().getPlugin("NametagEdit") != null) {
+            NametagEdit.getApi().reloadNametag(player);
+            Bukkit.getConsoleSender().sendMessage(Messages.CC("&c[Player-Disguise-Debug] NametagEdit is on the server, so let the plugin execute the code above."));
+        }
+
         if (sendDisguiseMsg) {
             for (String message : FrozedDisguise.getInstance().getConfig().getStringList("MESSAGES.DISGUISE-MESSAGE")) {
                 Messages.sendMessageToPlayer(message.replaceAll("<disguise_name>", disguiseName).replaceAll("<disguise_skin>", disguiseSkin), player);
@@ -159,9 +169,14 @@ public class DisguiseCmd implements CommandExecutor, Listener {
         }
 
         if (NickPlugin.getPlugin().getAPI().isCurrentlyRefreshing(player) && toggleActionBar) {
-            FrozedDisguise.getInstance().getActionbar().sendActionbar(
-                    player, Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.DISGUISE-ACTION-BAR")).replaceAll("<disguise_name>", NickPlugin.getPlugin().getAPI().getNickedName(player))
-            );
+            //if (FrozedDisguise.getInstance().registerActionBar()) {
+            if (FrozedDisguise.getInstance().getActionbar() != null) {
+                FrozedDisguise.getInstance().getActionbar().sendActionbar(
+                        player, Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.DISGUISE-ACTION-BAR"))
+                                .replaceAll("<disguise_name>", NickPlugin.getPlugin().getAPI().getNickedName(player))
+                );
+                //}
+            }
         }
     }
 
@@ -195,8 +210,8 @@ public class DisguiseCmd implements CommandExecutor, Listener {
             if (NickPlugin.getPlugin().getAPI().isNicked(player)) {
                 BukkitRunnable updateHealth = new BukkitRunnable() {
                     public void run() {
-                        player.setMaxHealth((double) FrozedDisguise.getInstance().getConfig().getInt("BOOLEANS.HEALTH-MODIFIER-AMOUNT"));
-                        player.setHealth((double) FrozedDisguise.getInstance().getConfig().getInt("BOOLEANS.HEALTH-MODIFIER-AMOUNT"));
+                        player.setMaxHealth(FrozedDisguise.getInstance().getConfig().getInt("BOOLEANS.HEALTH-MODIFIER-AMOUNT"));
+                        player.setHealth(FrozedDisguise.getInstance().getConfig().getInt("BOOLEANS.HEALTH-MODIFIER-AMOUNT"));
                     }
                 };
                 updateHealth.runTaskLater(FrozedDisguise.getInstance(), 10L);

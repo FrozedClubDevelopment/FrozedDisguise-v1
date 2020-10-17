@@ -1,3 +1,6 @@
+PLUGIN:
+  DEBUG-ENABLED: false
+
 BOOLEANS:
   ENABLE-SKINS-MENU: true
   ENABLE-ACTION-BAR: true
@@ -20,8 +23,8 @@ BOOLEANS:
   # If you're going to use NametagEdit, make sure
   # to disable TABLIST-NAME-COLOR, otherwise
   # it could cause some visual bugs.
-  TABLIST-NAME-COLOR: false
-  NAMETAG-EDIT-SUPPORT: true
+  TABLIST-NAME-COLOR: true
+  NAMETAG-EDIT-SUPPORT: false
 
   # This is for disguised players
   DEFAULT-TABLIST-NAME-COLOR: "&b"

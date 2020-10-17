@@ -7,6 +7,7 @@ import club.frozed.frozeddisguise.utils.Messages;
 import club.frozed.frozeddisguise.utils.menu.Button;
 import club.frozed.frozeddisguise.utils.menu.Menu;
 import com.nametagedit.plugin.NametagEdit;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -77,7 +78,7 @@ public class RanksMenu extends Menu {
                 if (FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.TABLIST-NAME-COLOR")) {
                     player.setPlayerListName(Messages.CC(rank.getNameColor() + player.getName()));
                 }
-                if (FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.NAMETAG-EDIT-SUPPORT")) {
+                if (Bukkit.getPluginManager().getPlugin("NametagEdit") != null && FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.NAMETAG-EDIT-SUPPORT")) {
                     NametagEdit.getApi().setPrefix(player, rank.getPrefix());
                 }
                 player.sendMessage(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.DISGUISE-RANK-SELECTED"))
