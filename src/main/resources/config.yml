@@ -28,6 +28,7 @@ BOOLEANS:
 
   # This is for disguised players
   DEFAULT-TABLIST-NAME-COLOR: "&b"
+  DEFAULT-NAMETAG-COLOR: "&7"
 
   # PlaceholderAPI Placeholders
   # Get the player disguise name -> %frozed-disguise_player_name%

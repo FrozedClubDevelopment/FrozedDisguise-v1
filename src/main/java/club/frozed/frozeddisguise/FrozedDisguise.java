@@ -62,6 +62,10 @@ public class FrozedDisguise extends JavaPlugin {
         }
 
         this.getServer().getConsoleSender().sendMessage(Messages.CC("&7-------------------------------------------"));
+
+        //TODO: Fix disguise rank
+        // Procedure to bug: Select a rank, use /udr and the select a rank again
+        // The tablist name doesn't get updated.
     }
 
     public void registerListeners() {
@@ -159,6 +163,10 @@ public class FrozedDisguise extends JavaPlugin {
 
     public static RanksManager getRankManager() {
         return ranksManager;
+    }
+
+    public static PlayerManager getPlayerManager() {
+        return playerManager;
     }
 
     public ActionBar getActionbar() {

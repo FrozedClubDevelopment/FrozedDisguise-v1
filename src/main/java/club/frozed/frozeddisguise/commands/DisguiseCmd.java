@@ -148,8 +148,8 @@ public class DisguiseCmd implements CommandExecutor, Listener {
         player.setDisplayName(player.getName());
 
         if (Bukkit.getPluginManager().getPlugin("NametagEdit") != null) {
-            NametagEdit.getApi().reloadNametag(player);
-            Bukkit.getConsoleSender().sendMessage(Messages.CC("&c[Player-Disguise-Debug] NametagEdit is on the server, so let the plugin execute the code above."));
+            NametagEdit.getApi().setPrefix(player, FrozedDisguise.getInstance().getConfig().getString("BOOLEANS.DEFAULT-NAMETAG-COLOR"))    ;
+            //NametagEdit.getApi().reloadNametag(player);
         }
 
         if (sendDisguiseMsg) {
@@ -169,13 +169,11 @@ public class DisguiseCmd implements CommandExecutor, Listener {
         }
 
         if (NickPlugin.getPlugin().getAPI().isCurrentlyRefreshing(player) && toggleActionBar) {
-            //if (FrozedDisguise.getInstance().registerActionBar()) {
             if (FrozedDisguise.getInstance().getActionbar() != null) {
                 FrozedDisguise.getInstance().getActionbar().sendActionbar(
                         player, Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.DISGUISE-ACTION-BAR"))
                                 .replaceAll("<disguise_name>", NickPlugin.getPlugin().getAPI().getNickedName(player))
                 );
-                //}
             }
         }
     }

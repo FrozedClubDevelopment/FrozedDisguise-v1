@@ -19,7 +19,7 @@ import java.util.Map;
 
 public class RanksMenu extends Menu {
 
-    private static Button EMPTY_FILLER = Button.placeholder(Material.STAINED_GLASS_PANE, (byte) 15, " ");
+    private final static Button EMPTY_FILLER = Button.placeholder(Material.STAINED_GLASS_PANE, (byte) 15, " ");
 
     @Override
     public int getSize() {
@@ -74,6 +74,7 @@ public class RanksMenu extends Menu {
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
             if (player.hasPermission("frozed.disguise.ranks." + rank.getName()) || player.hasPermission("frozed.disguise.ranks.*")) {
                 PlayerManager.setRank(player, FrozedDisguise.getRankManager().getRankName(rank.getName()));
+
                 player.setDisplayName(Messages.CC(rank.getPrefix() + player.getName()));
                 if (FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.TABLIST-NAME-COLOR")) {
                     player.setPlayerListName(Messages.CC(rank.getNameColor() + player.getName()));
@@ -110,10 +111,13 @@ public class RanksMenu extends Menu {
         @Override
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
             PlayerManager.rankData.remove(player);
-            if (FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.TABLIST-NAME-COLOR")) {
+            /*if (FrozedDisguise.getInstance().getConfig().getBoolean("BOOLEANS.TABLIST-NAME-COLOR")) {
                 player.setPlayerListName(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("BOOLEANS.DEFAULT-TABLIST-NAME-COLOR")) + player.getName());
-            }
+            }*/
             player.setDisplayName(player.getName());
+            player.setPlayerListName(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("BOOLEANS.DEFAULT-TABLIST-NAME-COLOR")) + player.getName());
+            NametagEdit.getApi().setPrefix(player, Messages.CC(FrozedDisguise.getInstance().getConfig().getString("BOOLEANS.DEFAULT-NAMETAG-COLOR")));
+            //NametagEdit.getApi().reloadNametag(player);
             player.closeInventory();
             player.sendMessage(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("MESSAGES.DISGUISE-RANK-SUCCESSFULLY-REMOVED")));
         }

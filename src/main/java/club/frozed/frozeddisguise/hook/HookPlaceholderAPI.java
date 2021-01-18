@@ -12,10 +12,9 @@ import xyz.haoshoku.nick.NickPlugin;
  * Project: FrozedDisguise
  * Date: 08/27/2020 @ 11:41
  */
-@RequiredArgsConstructor
 public class HookPlaceholderAPI extends PlaceholderExpansion {
 
-    private FrozedDisguise plugin;
+    final private FrozedDisguise plugin;
 
     public HookPlaceholderAPI(FrozedDisguise plugin) {
         this.plugin = plugin;
@@ -47,7 +46,7 @@ public class HookPlaceholderAPI extends PlaceholderExpansion {
         // %frozed-disguise_player_name%
         if (identifier.equalsIgnoreCase("player_name")) {
             if (!NickPlugin.getPlugin().getAPI().isNicked(player)) {
-                return NickPlugin.getPlugin().getAPI().getOriginalGameProfileName(player);
+                return player.getName();
             }
 
             return NickPlugin.getPlugin().getAPI().getNickedName(player);

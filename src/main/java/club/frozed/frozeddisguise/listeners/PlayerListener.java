@@ -25,7 +25,9 @@ public class PlayerListener implements Listener {
                 event.setFormat(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("BOOLEANS.FORMAT-WITH-RANK")
                         .replaceAll("<rank>", rank.getPrefix())
                         .replaceAll("<player>", player.getName())
-                        .replaceAll("<msg>", message.replaceAll("%", "%%").replaceAll("\\$", "\\\\\\$")))
+                        .replaceAll("<msg>", message
+                                .replaceAll("%", "%%")
+                                .replaceAll("\\$", "\\\\\\$")))
                 );
             } else if (NickPlugin.getPlugin().getAPI().isNicked(player.getPlayer())) {
                 event.setFormat(Messages.CC(FrozedDisguise.getInstance().getConfig().getString("BOOLEANS.FORMAT-WITHOUT-RANK")
