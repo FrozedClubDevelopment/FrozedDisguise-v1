@@ -6,7 +6,7 @@
 
     <groupId>club.frozed.frozeddisguise</groupId>
     <artifactId>FrozedDisguise</artifactId>
-    <version>2.6</version>
+    <version>2.7</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -38,7 +38,7 @@
             <artifactId>spigot-1.8</artifactId>
             <version>1.8.8-R0.1-SNAPSHOT</version>
             <scope>system</scope>
-            <systemPath>C:/Users/Elb1to/IdeaProjects/libs/PaperSpigot-1.8.8-R0.1-SNAPSHOT.jar</systemPath>
+            <systemPath>C:/Users/Elb1to/Documents/GitHub/FrozedDevelopment/libs/PaperSpigot-1.8.8-R0.1-SNAPSHOT.jar</systemPath>
         </dependency>
 
         <!-- PaperSpigot 1.9 -->

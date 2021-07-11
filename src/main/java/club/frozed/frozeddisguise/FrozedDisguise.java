@@ -50,7 +50,6 @@ public class FrozedDisguise extends JavaPlugin {
         this.getServer().getConsoleSender().sendMessage(Messages.CC("&7-------------------------------------------"));
         this.getServer().getConsoleSender().sendMessage(Messages.CC("&b&lFrozedDisguise &8- &3") + getDescription().getVersion());
         this.getServer().getConsoleSender().sendMessage(" ");
-        this.registerConfigs();
         this.registerListeners();
         this.registerManagers();
         this.registerCommands();
@@ -66,6 +65,15 @@ public class FrozedDisguise extends JavaPlugin {
         //TODO: Fix disguise rank
         // Procedure to bug: Select a rank, use /udr and the select a rank again
         // The tablist name doesn't get updated.
+
+        /*
+         * So, some retard called "Got" (Discord ID: 537638302640242709 | Discord #: Got#9416)
+         * thinks he's funny and a 1337 Hackerman for "cracking" this plugin, which is shit
+         *
+         * First of all, there was literally nothing to crack in this, you could literally execute
+         * on your server, and it would work perfectly fine
+         *
+         */
     }
 
     public void registerListeners() {
@@ -143,7 +151,7 @@ public class FrozedDisguise extends JavaPlugin {
                 getLogger().info("ActionBar NMS won't be enabled.");
                 getLogger().info("Currently supported versions: 1.8, 1.9, 1.10, 1.11, 1.12");
         }
-        
+
         this.getServer().getConsoleSender().sendMessage(Messages.CC("&8 [&b*&8] &3ActionBar Registered Successfully"));
 
         return actionBar != null;
